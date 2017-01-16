@@ -36,7 +36,7 @@ public class Fragmenter {
 		return currentIndex < fileSize;
 	}
 
-	public byte[] getNextFragment() throws Exception {
+	public byte[] nextFragment() throws Exception {
 		if ( !isIterating ) {
 			throw new Exception("Iteration terminated!");
 		}

@@ -5,6 +5,6 @@ package compression;
  *
  */
 public interface Compressor {
-	public void compress(String pathFile);
-	public void decompress(String pathFile);
+	public boolean compress(String pathFile);
+	public boolean decompress(String pathFile);
 }
