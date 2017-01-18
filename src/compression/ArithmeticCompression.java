@@ -74,11 +74,16 @@ public class ArithmeticCompression implements Compressor {
 			}
 			probabilities = (HashMap<Byte, Double>) dictionary;
 			fragmenter = new Fragmenter(fileName, 8);
-			File file = new File(fileName.substring(0, fileName.lastIndexOf('.')));
+			String decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.'));
+			File file = new File(decompressedFileName);
 			if ( !file.createNewFile() ) {
-				return false;
+				decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.')) + " copy";
+				file = new File(decompressedFileName);
+				if ( !file.createNewFile() ) {
+					return false;
+				}
 			}
-			outputStream = new FileOutputStream(fileName.substring(0, fileName.lastIndexOf('.')), true);
+			outputStream = new FileOutputStream(decompressedFileName, true);
 			while ( fragmenter.hasMoreFragments() ) { 
 				double lowerBound = 0;
 				double upperBound = 1;
@@ -102,6 +107,7 @@ public class ArithmeticCompression implements Compressor {
 				outputStream.write(decompressionOutput);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		finally {
@@ -122,13 +128,14 @@ public class ArithmeticCompression implements Compressor {
 		probabilities = new HashMap<>();
 		Fragmenter fragmenter = new	Fragmenter(fileName, 1);
 		while ( fragmenter.hasMoreFragments() ) {
-			if ( probabilities.containsKey(fragmenter.nextFragment()[0]) ) {
-				double value = probabilities.get(fragmenter.nextFragment()[0]);
+			byte nextFragment = fragmenter.nextFragment()[0];
+			if ( probabilities.containsKey(nextFragment) ) {
+				double value = probabilities.get(nextFragment);
 				value ++;
-				probabilities.put(fragmenter.nextFragment()[0], value);
+				probabilities.put(nextFragment, value);
 			}
 			else {
-				probabilities.put(fragmenter.nextFragment()[0], (double)1);
+				probabilities.put(nextFragment, (double)1);
 			}
 			sum ++;
 		}
