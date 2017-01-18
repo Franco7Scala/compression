@@ -11,13 +11,15 @@ import java.io.RandomAccessFile;
  */
 public class Fragmenter {
 	private long fileSize;
-	private boolean isIterating = true;
-	private int currentIndex = 0;
+	private boolean isIterating;
+	private int currentIndex;
 	private int blockSize;
 	private RandomAccessFile file;
 
 
 	public Fragmenter(String pathFile, int blockSize) throws IOException {		
+		this.isIterating = true;
+		this.currentIndex = 0;
 		this.file = new RandomAccessFile(pathFile, "r");
 		this.blockSize = blockSize;
 		this.fileSize = file.length();
