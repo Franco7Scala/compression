@@ -6,5 +6,5 @@ package compression;
  */
 public interface Compressor {
 	public boolean compress(String fileName);
-	public boolean decompress(String fileName);
+	public boolean decompress(String fileName, Object dictionary);
 }
