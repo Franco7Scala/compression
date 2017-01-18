@@ -83,29 +83,21 @@ public class ArithmeticCompression implements Compressor {
 				double lowerBound = 0;
 				double upperBound = 1;
 				double tag = Support.byteArrayToDouble(fragmenter.nextFragment());
-				double intervalSize = upperBound - lowerBound;
 				byte[] decompressionOutput = new byte[Constants.MAX_READABLE_BYTES];
-				
-				
-				
-				while ( (pendingBlocks > 0) && fragmenter.hasMoreFragments() ) {
-					pendingBlocks --;
-					double intervalSize = upperBound - lowerBound;
-					byte currentFragment = fragmenter.nextFragment()[0];
+				for ( int i = 0; i < Constants.MAX_READABLE_BYTES; i ++ ) {
+					double intervalSize = upperBound - lowerBound;	
+					// finding right interval
 					for ( byte indexedFragment : probabilities.keySet() ) {
-						if ( indexedFragment == currentFragment ) {
-							upperBound += ( probabilities.get(currentFragment) * intervalSize );
+						upperBound += ( probabilities.get(indexedFragment) * intervalSize );
+						if ( tag >= lowerBound && tag < upperBound ) {
+							decompressionOutput[i] = indexedFragment;
 							break;
 						}
 						else {
-							lowerBound += ( probabilities.get(currentFragment) * intervalSize );
+							lowerBound = upperBound;
 						}
 					}
 				}
-				double tag = lowerBound + ((upperBound - lowerBound)/2);
-
-				
-				
 				// saving decompression to file
 				outputStream.write(decompressionOutput);
 			}
