@@ -10,25 +10,30 @@ import utilities.objects.dataManager.Fragmenter;
  *
  */
 public class ArithmeticCompression implements Compressor {
-	private HashMap<Byte, Float> probabilities;
+	private HashMap<Byte, Double> probabilities;
 	
 	
 	@Override
 	public boolean compress(String fileName) {
 		try {
 			generateProbabilitites(fileName);
-			float lowerBound = 0;
-			float upperBound = 1;
+			double lowerBound = 0;
+			double upperBound = 1;
 			Fragmenter fragmenter = new	Fragmenter(fileName, 1);
 			while ( fragmenter.hasMoreFragments() ) {
-				float interval = upperBound - lowerBound;
-				
-				
-				
-				
-				
+				double intervalSize = upperBound - lowerBound;
+				byte currentFragment = fragmenter.nextFragment()[0];
+				for ( byte indexedFragment : probabilities.keySet() ) {
+					if ( indexedFragment == currentFragment ) {
+						upperBound += ( probabilities.get(currentFragment) * intervalSize );
+						break;
+					}
+					else {
+						lowerBound += ( probabilities.get(currentFragment) * intervalSize );
+					}
+				}
 			}
-			float tag = lowerBound + ((upperBound - lowerBound)/2);
+			double tag = lowerBound + ((upperBound - lowerBound)/2);
 			//TODO to save lowerBound
 		} catch (Exception e) {
 			return false;
@@ -42,22 +47,22 @@ public class ArithmeticCompression implements Compressor {
 		return false;
 	}
 	
-	public HashMap<Byte, Float> getProbabilities() {
+	public HashMap<Byte, Double> getProbabilities() {
 		return probabilities;
 	}
 	
 	private void generateProbabilitites (String fileName) throws Exception {
-		float sum = 0;
+		double sum = 0;
 		probabilities = new HashMap<>();
 		Fragmenter fragmenter = new	Fragmenter(fileName, 1);
 		while ( fragmenter.hasMoreFragments() ) {
 			if ( probabilities.containsKey(fragmenter.nextFragment()[0]) ) {
-				float value = probabilities.get(fragmenter.nextFragment()[0]);
+				double value = probabilities.get(fragmenter.nextFragment()[0]);
 				value ++;
 				probabilities.put(fragmenter.nextFragment()[0], value);
 			}
 			else {
-				probabilities.put(fragmenter.nextFragment()[0], 1f);
+				probabilities.put(fragmenter.nextFragment()[0], (double)1);
 			}
 			sum ++;
 		}
