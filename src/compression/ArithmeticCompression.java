@@ -1,7 +1,6 @@
 package compression;
 
 
-import java.io.IOException;
 import java.util.HashMap;
 import utilities.objects.dataManager.Fragmenter;
 
@@ -12,23 +11,18 @@ import utilities.objects.dataManager.Fragmenter;
  */
 public class ArithmeticCompression implements Compressor {
 	private HashMap<Byte, Float> probabilities;
-	private String fileName;
 	
-	
-	public ArithmeticCompression(String fileName) throws Exception {
-		this.fileName = fileName;
-		generateProbabilitites();
-	}
 	
 	@Override
-	public boolean compress(String pathFile) {
+	public boolean compress(String fileName) {
 		try {
+			generateProbabilitites(fileName);
 			float lowerBound = 0;
 			float upperBound = 1;
 			Fragmenter fragmenter = new	Fragmenter(fileName, 1);
 			while ( fragmenter.hasMoreFragments() ) {
 				float interval = upperBound - lowerBound;
-				//TODO to implement
+				
 				
 				
 				
@@ -36,14 +30,14 @@ public class ArithmeticCompression implements Compressor {
 			}
 			float tag = lowerBound + ((upperBound - lowerBound)/2);
 			//TODO to save lowerBound
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public boolean decompress(String pathFile) {
+	public boolean decompress(String fileName) {
 		//TODO to implement
 		return false;
 	}
@@ -52,7 +46,7 @@ public class ArithmeticCompression implements Compressor {
 		return probabilities;
 	}
 	
-	private void generateProbabilitites () throws Exception {
+	private void generateProbabilitites (String fileName) throws Exception {
 		float sum = 0;
 		probabilities = new HashMap<>();
 		Fragmenter fragmenter = new	Fragmenter(fileName, 1);
