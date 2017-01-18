@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import utilities.Constants;
+import utilities.Support;
 import utilities.objects.dataManager.Fragmenter;
 
 
@@ -14,15 +15,15 @@ import utilities.objects.dataManager.Fragmenter;
  */
 public class ArithmeticCompression implements Compressor {
 	private HashMap<Byte, Double> probabilities;
-	
-	 
+
+
 	@Override
 	public boolean compress(String fileName) {
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
 		try {
 			generateProbabilities(fileName);
-			fragmenter = new	Fragmenter(fileName, 1);
+			fragmenter = new Fragmenter(fileName, 1);
 			File file = new File(fileName + "." + Constants.ARITHMETIC_COMPRESSION_EXTENSION);
 			if ( !file.createNewFile() ) {
 				return false;
@@ -47,14 +48,8 @@ public class ArithmeticCompression implements Compressor {
 					}
 				}
 				double tag = lowerBound + ((upperBound - lowerBound)/2);
-				// converting TAG to byte[]
-				byte[] compressionOutput = new byte[8];
-				long lng = Double.doubleToLongBits(tag);
-				for( int i = 0; i < 8; i ++ ) {
-					compressionOutput[i] = (byte) ((lng >> ((7 - i) * 8)) & 0xff); 
-				}
 				// saving TAG to file
-				outputStream.write(compressionOutput);
+				outputStream.write(Support.doubleToByteArray(tag));
 				pendingBlocks = Constants.MAX_READABLE_BYTES;
 			}
 		} catch (Exception e) {
@@ -70,15 +65,66 @@ public class ArithmeticCompression implements Compressor {
 	}
 
 	@Override
-	public boolean decompress(String fileName) {
-		//TODO to implement
-		return false;
+	public boolean decompress(String fileName, Object dictionary) {
+		FileOutputStream outputStream = null;
+		Fragmenter fragmenter = null;
+		try {
+			if ( !(dictionary instanceof HashMap) ) {
+				return false;
+			}
+			probabilities = (HashMap<Byte, Double>) dictionary;
+			fragmenter = new Fragmenter(fileName, 8);
+			File file = new File(fileName.substring(0, fileName.lastIndexOf('.')));
+			if ( !file.createNewFile() ) {
+				return false;
+			}
+			outputStream = new FileOutputStream(fileName.substring(0, fileName.lastIndexOf('.')), true);
+			while ( fragmenter.hasMoreFragments() ) { 
+				double lowerBound = 0;
+				double upperBound = 1;
+				double tag = Support.byteArrayToDouble(fragmenter.nextFragment());
+				double intervalSize = upperBound - lowerBound;
+				byte[] decompressionOutput = new byte[Constants.MAX_READABLE_BYTES];
+				
+				
+				
+				while ( (pendingBlocks > 0) && fragmenter.hasMoreFragments() ) {
+					pendingBlocks --;
+					double intervalSize = upperBound - lowerBound;
+					byte currentFragment = fragmenter.nextFragment()[0];
+					for ( byte indexedFragment : probabilities.keySet() ) {
+						if ( indexedFragment == currentFragment ) {
+							upperBound += ( probabilities.get(currentFragment) * intervalSize );
+							break;
+						}
+						else {
+							lowerBound += ( probabilities.get(currentFragment) * intervalSize );
+						}
+					}
+				}
+				double tag = lowerBound + ((upperBound - lowerBound)/2);
+
+				
+				
+				// saving decompression to file
+				outputStream.write(decompressionOutput);
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		finally {
+			try {
+				outputStream.close();
+				fragmenter.close();
+			} catch (Exception e) {}
+		}
+		return true;
 	}
-	
+
 	public HashMap<Byte, Double> getProbabilities() {
 		return probabilities;
 	}
-	
+
 	private void generateProbabilities (String fileName) throws Exception {
 		double sum = 0;
 		probabilities = new HashMap<>();
@@ -100,6 +146,6 @@ public class ArithmeticCompression implements Compressor {
 		}
 		fragmenter.close();
 	}
-	
+
 
 }
