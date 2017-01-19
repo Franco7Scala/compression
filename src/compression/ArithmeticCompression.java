@@ -33,22 +33,30 @@ public class ArithmeticCompression implements Compressor {
 			while ( fragmenter.hasMoreFragments() ) { 
 				double lowerBound = 0;
 				double upperBound = 1;
+				System.out.println("INIT LB: " + lowerBound + "\tUB: " + upperBound  );
 				while ( (pendingBlocks > 0) && fragmenter.hasMoreFragments() ) {
 					pendingBlocks --;
 					double intervalSize = upperBound - lowerBound;
 					byte currentFragment = fragmenter.nextFragment()[0];
 					for ( byte indexedFragment : probabilities.keySet() ) {
 						if ( indexedFragment == currentFragment ) {
-							upperBound += ( probabilities.get(currentFragment) * intervalSize );
+							upperBound = lowerBound + ( probabilities.get(currentFragment) * intervalSize );
+							System.out.println("----FOUND---");
 							break;
 						}
 						else {
 							lowerBound += ( probabilities.get(currentFragment) * intervalSize );
+							System.out.println("p " + probabilities.get(currentFragment));
+							System.out.println("i " + intervalSize);
+							System.out.println("l " + lowerBound);
+							System.out.println("--------");
 						}
 					}
+System.out.println("LB: " + lowerBound + "\tUB: " + upperBound  );
 				}
 				double tag = lowerBound + ((upperBound - lowerBound)/2);
 				// saving TAG to file
+				System.out.println("SAVING: " + tag);
 				outputStream.write(Support.doubleToByteArray(tag));
 				pendingBlocks = Constants.MAX_READABLE_BYTES;
 			}
@@ -88,6 +96,7 @@ public class ArithmeticCompression implements Compressor {
 				double lowerBound = 0;
 				double upperBound = 1;
 				double tag = Support.byteArrayToDouble(fragmenter.nextFragment());
+				System.out.println("READING: " + tag);
 				byte[] decompressionOutput = new byte[Constants.MAX_READABLE_BYTES];
 				for ( int i = 0; i < Constants.MAX_READABLE_BYTES; i ++ ) {
 					double intervalSize = upperBound - lowerBound;	
