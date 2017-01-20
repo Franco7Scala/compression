@@ -21,5 +21,15 @@ public class Support {
 	    return ByteBuffer.wrap(bytes).getDouble();
 	}
 	
+	public static byte[] longToByteArray(long value) {
+	    byte[] bytes = new byte[8];
+	    ByteBuffer.wrap(bytes).putLong(value);
+	    return bytes;
+	}
+
+	public static long byteArrayToLong(byte[] bytes) {
+	    return ByteBuffer.wrap(bytes).getLong();
+	}
+	
 	
 }
