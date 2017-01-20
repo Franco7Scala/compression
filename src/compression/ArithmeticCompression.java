@@ -40,19 +40,14 @@ public class ArithmeticCompression implements Compressor {
 					byte currentFragment = fragmenter.nextFragment()[0];
 					for ( byte indexedFragment : probabilities.keySet() ) {
 						if ( indexedFragment == currentFragment ) {
-							upperBound = lowerBound + ( probabilities.get(currentFragment) * intervalSize );
-							System.out.println("----FOUND---");
+							upperBound = lowerBound + ( probabilities.get(indexedFragment) * intervalSize );
+							System.out.println("COMP: " + indexedFragment);
 							break;
 						}
 						else {
-							lowerBound += ( probabilities.get(currentFragment) * intervalSize );
-							System.out.println("p " + probabilities.get(currentFragment));
-							System.out.println("i " + intervalSize);
-							System.out.println("l " + lowerBound);
-							System.out.println("--------");
+							lowerBound += ( probabilities.get(indexedFragment) * intervalSize );
 						}
 					}
-System.out.println("LB: " + lowerBound + "\tUB: " + upperBound  );
 				}
 				double tag = lowerBound + ((upperBound - lowerBound)/2);
 				// saving TAG to file
@@ -85,7 +80,12 @@ System.out.println("LB: " + lowerBound + "\tUB: " + upperBound  );
 			String decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.'));
 			File file = new File(decompressedFileName);
 			if ( !file.createNewFile() ) {
-				decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.')) + " copy";
+				String container = fileName.substring(0, fileName.lastIndexOf('.'));
+				container = container.substring(0, container.lastIndexOf('.'));
+				decompressedFileName = container + " copy.";
+				container = fileName.substring(0, fileName.lastIndexOf('.'));
+				container = container.substring(container.lastIndexOf('.') + 1);
+				decompressedFileName = decompressedFileName.concat(container);
 				file = new File(decompressedFileName);
 				if ( !file.createNewFile() ) {
 					return false;
@@ -102,7 +102,7 @@ System.out.println("LB: " + lowerBound + "\tUB: " + upperBound  );
 					double intervalSize = upperBound - lowerBound;	
 					// finding right interval
 					for ( byte indexedFragment : probabilities.keySet() ) {
-						upperBound += ( probabilities.get(indexedFragment) * intervalSize );
+						upperBound = lowerBound + ( probabilities.get(indexedFragment) * intervalSize );
 						if ( tag >= lowerBound && tag < upperBound ) {
 							decompressionOutput[i] = indexedFragment;
 							break;
