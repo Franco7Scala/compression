@@ -32,15 +32,15 @@ public class ArithmeticCompression implements Compressor {
 			outputStream.write( Support.longToByteArray(fragmenter.getFileSize()) );
 			int pendingBlocks = Constants.MAX_READABLE_BYTES;
 			while ( fragmenter.hasMoreFragments() ) { 
-				double lowerBound = 0;
-				double upperBound = 1;
+				double lowerBound = Constants.LOWER_BOUD;
+				double upperBound = Constants.UPPER_BOUND;
 				while ( (pendingBlocks > 0) && fragmenter.hasMoreFragments() ) {
 					pendingBlocks --;
 					double intervalSize = upperBound - lowerBound;
 					byte currentFragment = fragmenter.nextFragment()[0];
 					for ( byte indexedFragment : probabilities.keySet() ) {
 						if ( indexedFragment == currentFragment ) {
-							upperBound = lowerBound + ( probabilities.get(indexedFragment) * intervalSize );
+							upperBound = lowerBound + ( probabilities.get(indexedFragment) * intervalSize );							
 							break;
 						}
 						else {
@@ -49,7 +49,6 @@ public class ArithmeticCompression implements Compressor {
 					}
 				}
 				double tag = lowerBound + ((upperBound - lowerBound)/2);
-				//System.out.println("tag A: " + tag);
 				// saving TAG to file
 				outputStream.write(Support.doubleToByteArray(tag));
 				pendingBlocks = Constants.MAX_READABLE_BYTES;
@@ -94,10 +93,9 @@ public class ArithmeticCompression implements Compressor {
 			outputStream = new FileOutputStream(decompressedFileName, true);
 			long read = 0;
 			while ( fragmenter.hasMoreFragments() && (read < fileSize) ) { 
-				double lowerBound = 0;
-				double upperBound = 1;
-				double tag = Support.byteArrayToDouble(fragmenter.nextFragment());
-				//System.out.println("tag B: " + tag);
+				double lowerBound = Constants.LOWER_BOUD;
+				double upperBound = Constants.UPPER_BOUND;
+				double tag = Support.byteArrayToDouble(fragmenter.nextFragment());				
 				byte[] decompressionOutput = new byte[Constants.MAX_READABLE_BYTES];
 				for ( int i = 0; i < Constants.MAX_READABLE_BYTES && (read < fileSize) ; i ++ ) {
 					read ++;
@@ -168,7 +166,7 @@ public class ArithmeticCompression implements Compressor {
 		}
 		//normalizing probabilities
 		for ( byte currentFragment : probabilities.keySet() ) {
-			probabilities.put(currentFragment, (probabilities.get(currentFragment)/sum) );
+			probabilities.put(currentFragment, (probabilities.get(currentFragment)/sum) );			
 		}
 		fragmenter.close();
 	}

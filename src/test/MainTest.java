@@ -46,7 +46,7 @@ public class MainTest {
 		ArithmeticCompression c = new ArithmeticCompression();
 		
 		
-		if (c.compress("/esercizi/compression/test.tush") ) {
+		if (c.compress("/esercizi/compression/aaa.txt") ) {
 			System.out.println("OOK");
 		}
 		else {
@@ -54,7 +54,7 @@ public class MainTest {
 		}
 		
 		
-		if (c.decompress("/esercizi/compression/test.tush.ac", c.getProbabilities()) ) {
+		if (c.decompress("/esercizi/compression/aaa.txt.ac", c.getProbabilities()) ) {
 			System.out.println("OOK");
 		}
 		else {
