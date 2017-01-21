@@ -14,5 +14,6 @@ public interface Constants {
 	public static final int MAX_READABLE_BYTES = 16;
 	public static final double LOWER_BOUD = 0;
 	public static final double UPPER_BOUND = 1000000000;
+	public static final String LZ78_COMPRESSION_EXTENSION = "lz78";
 	
 }
