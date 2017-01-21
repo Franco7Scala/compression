@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+
 import utilities.Constants;
 import utilities.objects.dataManager.Fragmenter;
 
@@ -63,6 +64,7 @@ public class LempelZiv78 implements Compressor {
 		}
 		finally {
 			try {
+System.out.println(dictionary.toString());
 				outputStream.close();
 				fragmenter.close();
 			} catch (Exception e) {}
@@ -81,8 +83,59 @@ public class LempelZiv78 implements Compressor {
 
 	@Override
 	public boolean decompress(String fileName, Object dictionary) {
-		// TODO Auto-generated method stub
-		return false;
+		FileOutputStream outputStream = null;
+		Fragmenter fragmenter = null;
+		HashMap<Byte, LinkedList<Byte>> readData = new HashMap<>();
+		try {
+			fragmenter = new Fragmenter(fileName, 2);
+			// creating file with decompression
+			String decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.'));
+			File file = new File(decompressedFileName);
+			if ( !file.createNewFile() ) {
+				String container = fileName.substring(0, fileName.lastIndexOf('.'));
+				container = container.substring(0, container.lastIndexOf('.'));
+				decompressedFileName = container + " copy.";
+				container = fileName.substring(0, fileName.lastIndexOf('.'));
+				container = container.substring(container.lastIndexOf('.') + 1);
+				decompressedFileName = decompressedFileName.concat(container);
+				file = new File(decompressedFileName);
+				if ( !file.createNewFile() ) {
+					return false;
+				}
+			}
+			outputStream = new FileOutputStream(decompressedFileName, true);
+			byte index = 0;
+			while ( fragmenter.hasMoreFragments() ) {
+				byte[] read = fragmenter.nextFragment();
+				if ( read[0] == 0 ) {	
+					LinkedList<Byte> fragmentData = new LinkedList<>();
+					fragmentData.add(read[1]);
+					readData.put(index, fragmentData);
+					index ++;
+					outputStream.write(read, 1, 1);
+				}
+				else {
+					LinkedList<Byte> fragmentData = new LinkedList<>(readData.get(read[0]));
+					fragmentData.addLast(read[1]);
+					System.out.println("adding " + read[1]);
+					readData.put(index, fragmentData);
+					index ++;
+					for ( byte toPrint : fragmentData ) {
+						outputStream.write(toPrint);
+					}
+				}
+				System.out.println(readData.toString());
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		finally {
+			try {
+				outputStream.close();
+				fragmenter.close();
+			} catch (Exception e) {}
+		}
+		return true;
 	}
 
 

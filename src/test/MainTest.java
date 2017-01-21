@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import compression.ArithmeticCompression;
 import compression.Compressor;
+import compression.LempelZiv78;
 
 public class MainTest {
 
@@ -43,24 +44,37 @@ public class MainTest {
 		
 		
 		
-		ArithmeticCompression c = new ArithmeticCompression();
+//		ArithmeticCompression c = new ArithmeticCompression();
+//		
+//		
+//		if (c.compress("/esercizi/compression/aaa.txt") ) {
+//			System.out.println("OOK");
+//		}
+//		else {
+//			System.out.println("MM");
+//		}
+//		
+//		
+//		if (c.decompress("/esercizi/compression/aaa.txt.ac", c.getProbabilities()) ) {
+//			System.out.println("OOK");
+//		}
+//		else {
+//			System.out.println("MM");
+//		}
 		
-		
-		if (c.compress("/esercizi/compression/aaa.txt") ) {
+		LempelZiv78 c = new LempelZiv78();
+		if (c.compress("/compression/prova.txt") ) {
 			System.out.println("OOK");
 		}
 		else {
 			System.out.println("MM");
 		}
-		
-		
-		if (c.decompress("/esercizi/compression/aaa.txt.ac", c.getProbabilities()) ) {
+		if (c.decompress("/compression/prova.txt.lz78", null) ) {
 			System.out.println("OOK");
 		}
 		else {
 			System.out.println("MM");
 		}
-		
 		
 		
 		
