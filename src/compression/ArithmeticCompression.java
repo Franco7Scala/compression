@@ -132,7 +132,6 @@ public class ArithmeticCompression implements Compressor {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 		finally {
