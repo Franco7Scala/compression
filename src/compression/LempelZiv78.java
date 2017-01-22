@@ -3,6 +3,7 @@ package compression;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -66,8 +67,8 @@ public class LempelZiv78 implements Compressor {
 			}
 			if ( !prefix.isEmpty() ) {
 				outputStream.write(Support.intToByteArray(oldPointer));
-				outputStream.write(Constants.EOF);
 			}
+			outputStream.write(Constants.EOF);
 		} catch (Exception e) {
 			return false;
 		}
@@ -81,7 +82,7 @@ public class LempelZiv78 implements Compressor {
 	}
 
 	private int search(List<Byte> prefix, HashMap<Integer, List<Byte>> dictionary) {
-		for (Entry<Integer, List<Byte>> entry : dictionary.entrySet()) {
+		for ( Entry<Integer, List<Byte>> entry : dictionary.entrySet() ) {
 			if ( prefix.equals(entry.getValue()) ) {
 				return entry.getKey();
 			}
@@ -93,11 +94,13 @@ public class LempelZiv78 implements Compressor {
 	public boolean decompress(String fileName, Object dictionary) {
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
+		String decompressedFileName = null;
+		boolean toTruncate = true;
 		HashMap<Integer, LinkedList<Byte>> readData = new HashMap<>();
 		try {
 			fragmenter = new Fragmenter(fileName, 5);
 			// creating file with decompression
-			String decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.'));
+			decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.'));
 			File file = new File(decompressedFileName);
 			if ( !file.createNewFile() ) {
 				String container = fileName.substring(0, fileName.lastIndexOf('.'));
@@ -116,7 +119,7 @@ public class LempelZiv78 implements Compressor {
 			while ( fragmenter.hasMoreFragments() ) {
 				byte[] read = fragmenter.nextFragment();
 				int currentIndex = Support.byteArrayToInt(Arrays.copyOfRange(read, 0, 4));
-				if ( currentIndex  == 0 ) {	
+				if ( currentIndex == 0 ) {	
 					LinkedList<Byte> fragmentData = new LinkedList<>();
 					fragmentData.add(read[4]);
 					readData.put(index, fragmentData);
@@ -124,14 +127,17 @@ public class LempelZiv78 implements Compressor {
 					outputStream.write(read, 4, 1);
 				}
 				else {
-					LinkedList<Byte> fragmentData = new LinkedList<>(readData.get(currentIndex));
-					if ( read[4] != Constants.EOF ) {
+					if ( read[0] != Constants.EOF ) {
+						LinkedList<Byte> fragmentData = new LinkedList<>(readData.get(currentIndex));
 						fragmentData.addLast(read[4]);
+						readData.put(index, fragmentData);
+						index ++;
+						for ( byte toPrint : fragmentData ) {
+							outputStream.write(toPrint);
+						}
 					}
-					readData.put(index, fragmentData);
-					index ++;
-					for ( byte toPrint : fragmentData ) {
-						outputStream.write(toPrint);
+					else {
+						toTruncate = false;
 					}
 				}
 			}
@@ -143,13 +149,17 @@ public class LempelZiv78 implements Compressor {
 			try {
 				outputStream.close();
 				fragmenter.close();
+				if ( toTruncate ) {
+					RandomAccessFile file = new RandomAccessFile(decompressedFileName, "rw");
+					file.setLength(file.length()-1);
+					file.close();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return true;
 	}
-
 
 	
 }

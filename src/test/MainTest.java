@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 
+import javax.swing.SortingFocusTraversalPolicy;
+
 import compression.ArithmeticCompression;
 import compression.Compressor;
 import compression.LempelZiv78;
@@ -63,22 +65,50 @@ public class MainTest {
 //		}
 		
 		LempelZiv78 c = new LempelZiv78();
-		if (c.compress("/compression/aaa.mp3") ) {
+		if (c.compress("/esercizi/compression/test.tush") ) {
 			System.out.println("OOK");
 		}
 		else {
 			System.out.println("MM");
 		}
-		if (c.decompress("/compression/aaa.mp3.lz78", null) ) {
+		if (c.decompress("/esercizi/compression/test.tush.lz78", null) ) {
 			System.out.println("OOK");
 		}
 		else {
 			System.out.println("MM");
 		}
 		
-		
-		
-		
+//		boolean err = false;
+//		for ( int i = 0; i < c.a.size(); i ++ ) {
+//			/*if ( c.a.get(i) != c.b.get(i) ) {
+//				System.out.println("a: " + c.a.get(i) +  " b: " + c.b.get(i) + " at index " + i);
+//				err = true;
+//			}*/
+//			if (i > 20000) 
+//			System.out.println("a: " + c.a.get(i) + " at index " + i);
+//		}
+//		
+//		
+//		for ( int i = 0; i < c.b.size(); i ++ ) {
+//			/*if ( c.a.get(i) != c.b.get(i) ) {
+//				System.out.println("a: " + c.a.get(i) +  " b: " + c.b.get(i) + " at index " + i);
+//				err = true;
+//			}*/
+//			if (i > 20000) 
+//			System.out.println("b: " + c.b.get(i) + " at index " + i);
+//		}
+//		
+//		
+//		for ( int i = 0; i < c.a.size(); i ++ ) {
+//			if ( c.a.get(i) != c.b.get(i) ) {
+//				System.out.println("BOTH a: " + c.a.get(i) +  " b: " + c.b.get(i) + " at index " + i);
+//				err = true;
+//			}
+//		}
+//		
+//		
+//		if (err) System.out.println("ERROR");
+//		
 		
 		
 		/*
