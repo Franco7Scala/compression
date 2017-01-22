@@ -63,13 +63,13 @@ public class MainTest {
 //		}
 		
 		LempelZiv78 c = new LempelZiv78();
-		if (c.compress("/compression/prova.txt") ) {
+		if (c.compress("/compression/aaa.mp3") ) {
 			System.out.println("OOK");
 		}
 		else {
 			System.out.println("MM");
 		}
-		if (c.decompress("/compression/prova.txt.lz78", null) ) {
+		if (c.decompress("/compression/aaa.mp3.lz78", null) ) {
 			System.out.println("OOK");
 		}
 		else {

@@ -31,5 +31,15 @@ public class Support {
 	    return ByteBuffer.wrap(bytes).getLong();
 	}
 	
+	public static byte[] intToByteArray(int value) {
+	    byte[] bytes = new byte[4];
+	    ByteBuffer.wrap(bytes).putInt(value);
+	    return bytes;
+	}
+
+	public static int byteArrayToInt(byte[] bytes) {
+	    return ByteBuffer.wrap(bytes).getInt();
+	}
+	
 	
 }

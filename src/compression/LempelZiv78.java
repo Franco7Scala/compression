@@ -1,21 +1,26 @@
 package compression;
 
+
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
 import utilities.Constants;
+import utilities.Support;
 import utilities.objects.dataManager.Fragmenter;
 
-public class LempelZiv78 implements Compressor {
-	private HashMap<Byte, List<Byte>> dictionary;
 
+public class LempelZiv78 implements Compressor {
+	private HashMap<Integer, List<Byte>> dictionary;
+
+	
 	@Override
 	public boolean compress(String fileName) {
-		dictionary = new HashMap<Byte, List<Byte>>();
+		dictionary = new HashMap<Integer, List<Byte>>();
 		LinkedList<Byte> prefix = new LinkedList<>();
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
@@ -26,30 +31,30 @@ public class LempelZiv78 implements Compressor {
 				return false;
 			}
 			outputStream = new FileOutputStream(fileName + "." + Constants.LZ78_COMPRESSION_EXTENSION, true);
-			byte oldPointer = -1;
-			while (fragmenter.hasMoreFragments()) {
+			int oldPointer = -1;
+			while ( fragmenter.hasMoreFragments() ) {
 				byte nextFragment = fragmenter.nextFragment()[0];
 				prefix.add(nextFragment);
 				if ( oldPointer == -1 ) {
 					// matching 1 character
 					oldPointer = search(prefix, dictionary);
 					if ( oldPointer == 0 ) {
-						byte[] b = {0, nextFragment};
-						outputStream.write(b);
-						byte newPosition = (byte) (dictionary.size() + 1);
-						dictionary.put(new Byte(newPosition), new LinkedList<Byte>(prefix));
+						outputStream.write(Support.intToByteArray(0));
+						outputStream.write(nextFragment);
+						int newPosition = (dictionary.size() + 1);
+						dictionary.put(newPosition, new LinkedList<Byte>(prefix));
 						prefix.clear();
 						oldPointer = -1;
 						continue;
 					}
 				}
 				else {
-					byte containerPointer = search(prefix, dictionary);
+					int containerPointer = search(prefix, dictionary);
 					if ( containerPointer == 0 ) {
-						byte[] b = {oldPointer, prefix.getLast()};
-						outputStream.write(b);
-						byte newPosition = (byte) (dictionary.size() + 1);
-						dictionary.put(new Byte(newPosition), new LinkedList<Byte>(prefix));
+						outputStream.write(Support.intToByteArray(oldPointer));
+						outputStream.write(prefix.getLast());
+						int newPosition = (dictionary.size() + 1);
+						dictionary.put(newPosition, new LinkedList<Byte>(prefix));
 						prefix.clear();
 						oldPointer = -1;
 						continue;
@@ -59,12 +64,15 @@ public class LempelZiv78 implements Compressor {
 					}
 				}
 			}
+			if ( !prefix.isEmpty() ) {
+				outputStream.write(Support.intToByteArray(oldPointer));
+				outputStream.write(Constants.EOF);
+			}
 		} catch (Exception e) {
 			return false;
 		}
 		finally {
 			try {
-System.out.println(dictionary.toString());
 				outputStream.close();
 				fragmenter.close();
 			} catch (Exception e) {}
@@ -72,8 +80,8 @@ System.out.println(dictionary.toString());
 		return true;
 	}
 
-	private byte search(List<Byte> prefix, HashMap<Byte, List<Byte>> dictionary) {
-		for (Entry<Byte, List<Byte>> entry : dictionary.entrySet()) {
+	private int search(List<Byte> prefix, HashMap<Integer, List<Byte>> dictionary) {
+		for (Entry<Integer, List<Byte>> entry : dictionary.entrySet()) {
 			if ( prefix.equals(entry.getValue()) ) {
 				return entry.getKey();
 			}
@@ -85,9 +93,9 @@ System.out.println(dictionary.toString());
 	public boolean decompress(String fileName, Object dictionary) {
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
-		HashMap<Byte, LinkedList<Byte>> readData = new HashMap<>();
+		HashMap<Integer, LinkedList<Byte>> readData = new HashMap<>();
 		try {
-			fragmenter = new Fragmenter(fileName, 2);
+			fragmenter = new Fragmenter(fileName, 5);
 			// creating file with decompression
 			String decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.'));
 			File file = new File(decompressedFileName);
@@ -104,36 +112,40 @@ System.out.println(dictionary.toString());
 				}
 			}
 			outputStream = new FileOutputStream(decompressedFileName, true);
-			byte index = 0;
+			int index = 1;
 			while ( fragmenter.hasMoreFragments() ) {
 				byte[] read = fragmenter.nextFragment();
-				if ( read[0] == 0 ) {	
+				int currentIndex = Support.byteArrayToInt(Arrays.copyOfRange(read, 0, 4));
+				if ( currentIndex  == 0 ) {	
 					LinkedList<Byte> fragmentData = new LinkedList<>();
-					fragmentData.add(read[1]);
+					fragmentData.add(read[4]);
 					readData.put(index, fragmentData);
 					index ++;
-					outputStream.write(read, 1, 1);
+					outputStream.write(read, 4, 1);
 				}
 				else {
-					LinkedList<Byte> fragmentData = new LinkedList<>(readData.get(read[0]));
-					fragmentData.addLast(read[1]);
-					System.out.println("adding " + read[1]);
+					LinkedList<Byte> fragmentData = new LinkedList<>(readData.get(currentIndex));
+					if ( read[4] != Constants.EOF ) {
+						fragmentData.addLast(read[4]);
+					}
 					readData.put(index, fragmentData);
 					index ++;
 					for ( byte toPrint : fragmentData ) {
 						outputStream.write(toPrint);
 					}
 				}
-				System.out.println(readData.toString());
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		finally {
 			try {
 				outputStream.close();
 				fragmenter.close();
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return true;
 	}
