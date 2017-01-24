@@ -6,7 +6,7 @@ package utilities;
  */
 public interface Constants {
 	
-	// Common
+	// Compression
 	public static final String DECOMPRESSION_EXTENSION = "decompressing";
 	public static final byte EOF = -1;
 	
@@ -15,6 +15,14 @@ public interface Constants {
 	public static final int MAX_READABLE_BYTES = 16;
 	public static final double LOWER_BOUD = 0;
 	public static final double UPPER_BOUND = 1000000000;
+	
+	// LempelZiv78
 	public static final String LZ78_COMPRESSION_EXTENSION = "lz78";
+	
+	
+	// Encoding
+	public enum Factor {DIRECT, SINGLE_SHIFT, DOUBLE_SHIFT, TRIPLE_SHIFT};
+	
+	
 	
 }
