@@ -41,7 +41,12 @@ public class Support {
 	    return ByteBuffer.wrap(bytes).getInt();
 	}
 	
-	public static byte[] shiftByteArray(byte a[]) throws Exception {
+	public static byte[] shiftByteArray(byte array[], int positions) throws Exception {
+		
+		
+		
+		
+		
 		return null;
 	}
 	
