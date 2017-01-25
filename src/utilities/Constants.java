@@ -21,7 +21,7 @@ public interface Constants {
 	
 	
 	// Encoding
-	public enum Factor {DIRECT, SINGLE_SHIFT, DOUBLE_SHIFT, TRIPLE_SHIFT};
+	public enum Factor {DIRECT, SINGLE_SHIFT, DOUBLE_SHIFT, TRIPLE_SHIFT, BLANK};
 	public static int BLOCK_SIZE = 8;
 	
 	
