@@ -64,6 +64,7 @@ public class MainTest {
 //			System.out.println("MM");
 //		}
 		
+		/*
 		LempelZiv78 c = new LempelZiv78();
 		if (c.compress("/esercizi/compression/test.tush") ) {
 			System.out.println("OOK");
@@ -76,7 +77,7 @@ public class MainTest {
 		}
 		else {
 			System.out.println("MM");
-		}
+		}*/
 		
 //		boolean err = false;
 //		for ( int i = 0; i < c.a.size(); i ++ ) {
@@ -138,6 +139,44 @@ public class MainTest {
 		}
 		*/
 		
+		
+		/*
+		byte a = 100;
+		byte b = 55;
+		System.out.print("A: ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(getBitValue(a, i) + " ");
+		}
+		System.out.print("\n");
+		
+		System.out.print("B: ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(getBitValue(b, i) + " ");
+		}
+		System.out.print("\n");
+		
+		
+		byte r = sumBytesBitPerBit(a, b);
+		
+		System.out.print("R: ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(getBitValue(r, i) + " ");
+		}
+		System.out.print("\n");
+		*/
 	} 
+	
+	
+	
+
+	
+
+
+	
+	
+	
+	
+	
+	
 
 }

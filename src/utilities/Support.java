@@ -41,5 +41,41 @@ public class Support {
 	    return ByteBuffer.wrap(bytes).getInt();
 	}
 	
+	public static byte[] shiftByteArray(byte a[]) throws Exception {
+		return null;
+	}
+	
+	public static byte sumBytesBitPerBit(byte a, byte b) throws Exception {
+		byte result = 0;
+		for ( int i = 0; i < 8; i ++ ) {
+			if ( getBitValue(a, i) == 1 && getBitValue(b, i) == 0 ) {
+				result = addBitToPosition(result, i, 1);
+			}
+			else if ( getBitValue(a, i) == 0 && getBitValue(b, i) == 1 ) {
+				result = addBitToPosition(result, i, 1);
+			}
+		}
+		return result;
+	}
+	
+	private static byte addBitToPosition(byte result, int position, int value) throws Exception {
+		if ( !(position >= 0 && position < 8) ) {
+			throw new Exception("Wrong bit position!");
+		}
+		if ( value == 1 ) {
+			return (byte) (result | (1 << position));	
+		}
+		else if ( value == 0 ) {
+			return (byte) (result & ~(1 << position));
+		}
+		else {
+			throw new Exception("Wrong bit value!");
+		}
+	}
+	
+	private static int getBitValue(byte b, int position) {
+	   return (b >> position) & 1;
+	}
+	
 	
 }
