@@ -53,7 +53,7 @@ public class Support {
 		return null;
 	}
 	
-	public static byte sumBytesArrayBitPerBit(byte[] a, byte[] b) throws Exception {
+	public static byte[] sumBytesArrayBitPerBit(byte[] a, byte[] b) throws Exception {
 		return null;
 	}
 	
