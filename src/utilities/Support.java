@@ -42,13 +42,21 @@ public class Support {
 	}
 	
 	public static byte[] shiftByteArray(byte array[], int positions) throws Exception {
-		
+		byte[] result = new byte[array.length + 1];
+		for (  ) {
+			
+		}
 		
 		
 		
 		
 		return null;
 	}
+	
+	public static byte sumBytesArrayBitPerBit(byte[] a, byte[] b) throws Exception {
+		return null;
+	}
+	
 	
 	public static byte sumBytesBitPerBit(byte a, byte b) throws Exception {
 		byte result = 0;
