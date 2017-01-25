@@ -41,24 +41,40 @@ public class Support {
 	    return ByteBuffer.wrap(bytes).getInt();
 	}
 	
-	public static byte[] shiftByteArray(byte array[], int positions) throws Exception {
-		byte[] result = new byte[array.length + 1];
-		for (  ) {
-			
+	public static byte[] shiftByteArray(byte[] array, int positions) throws Exception {
+		if ( !(positions >= 0 && positions < 8) ) {
+			throw new Exception("Too many shift!");
 		}
-		
-		
-		
-		
-		return null;
+		byte[] result = new byte[array.length + 1];
+		byte container = 0;
+		for ( int i = 0; i < array.length; i ++ ) {
+			result[i] = (byte)(array[i] << positions);
+			if ( i != 0 ) {
+				container = array[i - 1];
+				for ( int j = positions; j < 8; j ++ ) {
+					result[i] = addBitToPosition(result[i], j-positions, getBitValue(container, j));
+				}
+			}
+		}
+		for ( int j = positions; j < 8; j ++ ) {
+			container = array[result.length-1 - 1];
+			result[result.length-1] = addBitToPosition(result[result.length-1], j-positions, getBitValue(container, j));
+		}
+		return result;
 	}
 	
 	public static byte[] sumBytesArrayBitPerBit(byte[] a, byte[] b) throws Exception {
-		return null;
+		if ( a.length != b.length ) {
+			throw new Exception("Arrays have to be the same size!");
+		}
+		byte[] result = new byte[a.length];
+		for ( int i = 0; i < a.length; i ++ ) {
+			result[i] = sumBytesBitPerBit(a[i], b[i]);
+		}
+		return result;
 	}
 	
-	
-	public static byte sumBytesBitPerBit(byte a, byte b) throws Exception {
+	private static byte sumBytesBitPerBit(byte a, byte b) throws Exception {
 		byte result = 0;
 		for ( int i = 0; i < 8; i ++ ) {
 			if ( getBitValue(a, i) == 1 && getBitValue(b, i) == 0 ) {

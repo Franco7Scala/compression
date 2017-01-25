@@ -9,6 +9,7 @@ import javax.swing.SortingFocusTraversalPolicy;
 import compression.ArithmeticCompression;
 import compression.Compressor;
 import compression.LempelZiv78;
+import utilities.Support;
 
 public class MainTest {
 
@@ -139,7 +140,76 @@ public class MainTest {
 		}
 		*/
 		
+		/*
+		byte[] a = {33, 33};
 		
+		System.out.print("A: ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(a[0], i) + " ");
+		}
+		System.out.print(" | ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(a[1], i) + " ");
+		}
+		System.out.print("\n");
+		
+		byte[] b = {13, 52};
+		System.out.print("B: ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(b[0], i) + " ");
+		}
+		System.out.print(" | ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(b[1], i) + " ");
+		}
+		System.out.print("\n");
+		
+		byte[] r = Support.sumBytesArrayBitPerBit(a, b);
+		
+		System.out.print("R: ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(r[0], i) + " ");
+		}
+		System.out.print(" | ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(r[1], i) + " ");
+		}
+		System.out.print("\n");
+		*/
+		/*
+		a = Support.shiftByteArray(a, 4);
+		
+		System.out.print("A: ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(a[0], i) + " ");
+		}
+		System.out.print(" | ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(a[1], i) + " ");
+		}
+		System.out.print(" | ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(a[2], i) + " ");
+		}
+		System.out.print("\n");
+		
+		*/
+		/*
+		byte a = 3;
+		System.out.print("A: ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(a, i) + " ");
+		}
+		System.out.print("\n");
+		
+		a = (byte)(a >> 3);
+		
+		System.out.print("A: ");
+		for ( int i = 0; i < 8; i ++ ) {
+			System.out.print(Support.getBitValue(a, i) + " ");
+		}
+		System.out.print("\n");
+		*/
 		/*
 		byte a = 100;
 		byte b = 55;
