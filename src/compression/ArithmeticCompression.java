@@ -15,8 +15,10 @@ import utilities.objects.dataManager.Fragmenter;
  */
 public class ArithmeticCompression implements Compressor {
 	private HashMap<Byte, Double> probabilities;
+	
+	public CompressorDelegate delegate;
 
-
+	
 	@Override
 	public boolean compress(String fileName) {
 		FileOutputStream outputStream = null;
@@ -35,6 +37,9 @@ public class ArithmeticCompression implements Compressor {
 				double lowerBound = Constants.LOWER_BOUD;
 				double upperBound = Constants.UPPER_BOUND;
 				while ( (pendingBlocks > 0) && fragmenter.hasMoreFragments() ) {
+					if ( delegate != null ) {
+						delegate.notifyAdvancement(fragmenter.getCurrentFragment()/fragmenter.getFileSize());
+					}
 					pendingBlocks --;
 					double intervalSize = upperBound - lowerBound;
 					byte currentFragment = fragmenter.nextFragment()[0];

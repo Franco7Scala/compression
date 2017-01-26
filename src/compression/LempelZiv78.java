@@ -18,6 +18,8 @@ import utilities.objects.dataManager.Fragmenter;
 public class LempelZiv78 implements Compressor {
 	private HashMap<Integer, List<Byte>> dictionary;
 
+	public CompressorDelegate delegate;
+
 	
 	@Override
 	public boolean compress(String fileName) {
@@ -34,6 +36,9 @@ public class LempelZiv78 implements Compressor {
 			outputStream = new FileOutputStream(fileName + "." + Constants.LZ78_COMPRESSION_EXTENSION, true);
 			int oldPointer = -1;
 			while ( fragmenter.hasMoreFragments() ) {
+				if ( delegate != null ) {
+					delegate.notifyAdvancement(fragmenter.getCurrentFragment()/fragmenter.getFileSize());
+				}
 				byte nextFragment = fragmenter.nextFragment()[0];
 				prefix.add(nextFragment);
 				if ( oldPointer == -1 ) {

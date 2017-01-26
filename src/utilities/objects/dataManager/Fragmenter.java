@@ -37,6 +37,10 @@ public class Fragmenter {
 	public boolean hasMoreFragments() {
 		return currentIndex < fileSize;
 	}
+	
+	public int getCurrentFragment() {
+		return currentIndex;
+	}
 
 	public byte[] nextFragment() throws Exception {
 		if ( !isIterating ) {
