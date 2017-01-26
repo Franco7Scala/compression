@@ -87,7 +87,7 @@ public class Support {
 		return result;
 	}
 	
-	private static byte addBitToPosition(byte result, int position, int value) throws Exception {
+	public static byte addBitToPosition(byte result, int position, int value) throws Exception {
 		if ( !(position >= 0 && position < 8) ) {
 			throw new Exception("Wrong bit position!");
 		}
@@ -102,7 +102,7 @@ public class Support {
 		}
 	}
 	
-	private static int getBitValue(byte b, int position) {
+	public static int getBitValue(byte b, int position) {
 	   return (b >> position) & 1;
 	}
 	
