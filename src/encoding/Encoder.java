@@ -9,6 +9,6 @@ import utilities.EncoderParameters;
  *
  */
 public interface Encoder {
-	public boolean encode(String fileName, EncoderParameters paramters);
-	public boolean decode(String fileName, EncoderParameters paramters);
+	public byte[] encode(String fileName, EncoderParameters paramters);
+	public boolean decode(byte[] input, EncoderParameters paramters);
 }
