@@ -2,6 +2,7 @@ package test;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.BitSet;
 import java.util.HashMap;
 
 import javax.swing.SortingFocusTraversalPolicy;
@@ -14,6 +15,19 @@ import utilities.Support;
 public class MainTest {
 
 	public static void main(String[] args) throws Exception {
+		
+		
+		
+		
+		BitSet[] states = new BitSet[(int) Math.pow(2, 3)];
+		for ( int i = 0; i < states.length; i ++ ) {
+			states[i] = BitSet.valueOf(new long[] { i }).get(0, 3);
+			
+			for ( int a =0; a < states[i].size(); a ++ ) {
+				System.out.print( (states[i].get(a)? 1 : 0) + " ");
+			}
+			System.out.println("");
+		}
 		
 		/*
 		

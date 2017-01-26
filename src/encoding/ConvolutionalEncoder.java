@@ -3,6 +3,7 @@ package encoding;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.BitSet;
 
 import javax.naming.spi.DirStateFactory.Result;
 
@@ -77,7 +78,29 @@ public class ConvolutionalEncoder implements Encoder {
 
 	@Override
 	public boolean decode(byte[] input, EncoderParameters paramters) {
-		// TODO Auto-generated method stub
+		BitSet set = BitSet.valueOf(input);
+		BitSet[] states = new BitSet[(int) Math.pow(2, paramters.M)];
+		for ( int i = 0; i < states.length; i ++ ) {
+			states[i] = BitSet.valueOf(new long[] { i }).get(0, paramters.n);
+		}
+		
+		
+		
+		
+		for ( int i = 0; i < set.size(); i += paramters.n ) {
+			BitSet subSet = set.get(i, i+paramters.n);
+			
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		
 		return false;
 	}
 
