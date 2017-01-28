@@ -1,7 +1,7 @@
 package utilities;
 
 
-import encoding.GraphDecoder;
+import encoding.GraphCoder;
 import utilities.Constants.Factor;
 
 
@@ -10,7 +10,8 @@ import utilities.Constants.Factor;
  *
  */
 public class EncoderParameters {
-	public GraphDecoder decoder;
+	public GraphCoder coder;
+	public int blockSize;
 	public String decodingOut;
 	public Factor[][][] generator;	// generator polynomials
 	public int k; 					// quantity input bits to the coder 

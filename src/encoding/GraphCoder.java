@@ -10,7 +10,7 @@ import java.util.LinkedList;
  * @author francesco
  *
  */
-public class GraphDecoder {
+public class GraphCoder {
 	private LinkedList<Node> nodes;
 	private Node source;
 	private Node currentStateEncoding;
@@ -19,7 +19,7 @@ public class GraphDecoder {
 	private boolean decodingStarted;
 	
 	
-	public GraphDecoder(Node source) {
+	public GraphCoder(Node source) {
 		this.source = source;
 		this.nodes = new LinkedList<>();
 		encodingStarted = false;

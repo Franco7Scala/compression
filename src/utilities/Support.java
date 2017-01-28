@@ -106,5 +106,4 @@ public class Support {
 	   return (b >> position) & 1;
 	}
 	
-	
 }
