@@ -23,11 +23,12 @@ public class MainTest {
 		for ( int i = 0; i < states.length; i ++ ) {
 			states[i] = BitSet.valueOf(new long[] { i }).get(0, 3);
 			
-			for ( int a =0; a < states[i].size(); a ++ ) {
+			for ( int a =0; a < 3; a ++ ) {
 				System.out.print( (states[i].get(a)? 1 : 0) + " ");
 			}
 			System.out.println("");
 		}
+		
 		
 		/*
 		

@@ -1,6 +1,7 @@
 package encoding;
 
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.BitSet;
@@ -78,30 +79,44 @@ public class ConvolutionalEncoder implements Encoder {
 
 	@Override
 	public boolean decode(byte[] input, EncoderParameters paramters) {
-		BitSet set = BitSet.valueOf(input);
-		BitSet[] states = new BitSet[(int) Math.pow(2, paramters.M)];
-		for ( int i = 0; i < states.length; i ++ ) {
-			states[i] = BitSet.valueOf(new long[] { i }).get(0, paramters.n);
+		FileOutputStream outputStream = null;
+		try {
+			outputStream = new FileOutputStream(paramters.decodingOut, true);
+			BitSet set = BitSet.valueOf(input);
+			paramters.decoder.startDecoding();
+			for ( int i = 0; i < set.size(); i += paramters.n ) {
+				BitSet fragment = paramters.decoder.getNextSymbol(set.get(i, i+paramters.n));
+				outputStream.write(fragment.toByteArray());
+			}
+			paramters.decoder.stopDecoding();
+			return true;
+		} 
+		catch (Exception e) {
+			return false;
 		}
+		finally {
+			try {
+				outputStream.close();
+			} catch (IOException e) {}
+		} 
 		
+		/*
+		int quantityStates = (int) Math.pow(2, paramters.M);
+		int quantityTransitions = (int) Math.pow(2, paramters.k);
 		
-		
-		
-		for ( int i = 0; i < set.size(); i += paramters.n ) {
-			BitSet subSet = set.get(i, i+paramters.n);
-			
-			
-			
-			
+		BitSet[] c_t = new BitSet[quantityStates * quantityTransitions];
+		// creating C(t)
+		for ( int i = 0; i < c_t.length; i ++ ) {
+			c_t[i] = BitSet.valueOf(new long[] { i }).get(0, paramters.n);
 		}
-		
-		
-		
-		
-		
-		
-		
+		// creating S(t)
+		BitSet[] s_t = new BitSet[quantityStates * quantityTransitions];
+		for ( int i = 0; i < c_t.length; i ++ ) {
+			s_t[i] = BitSet.valueOf(new long[] { i }).get(0, paramters.n);
+		}
+
 		return false;
+		*/
 	}
 
 
