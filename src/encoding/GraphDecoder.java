@@ -13,13 +13,16 @@ import java.util.LinkedList;
 public class GraphDecoder {
 	private LinkedList<Node> nodes;
 	private Node source;
-	private Node currentState;
+	private Node currentStateEncoding;
+	private Node currentStateDecoding;
+	private boolean encodingStarted;
 	private boolean decodingStarted;
 	
 	
 	public GraphDecoder(Node source) {
 		this.source = source;
 		this.nodes = new LinkedList<>();
+		encodingStarted = false;
 		decodingStarted = false;
 		nodes.add(source);
 	}
@@ -45,64 +48,52 @@ public class GraphDecoder {
 	
 	// encoding
 	public void startEncoding() {
-		//TODO
-		decodingStarted = true;
-		currentState = source;
+		encodingStarted = true;
+		currentStateEncoding = source;
 	}
 	
 	public void stopEncoding() {
-		//TODO
-		decodingStarted = false;
+		encodingStarted = false;
 	}
 	
 	public BitSet getNextSymbolEncoded(BitSet input) throws Exception {
-		//TODO
-		if ( !decodingStarted ) {
-			throw new Exception("You must call before startDecoding!");
+		if ( !encodingStarted ) {
+			throw new Exception("You must call before startEncoding!");
 		}
-		Link outputLink = null;
-		int minMetric = Integer.MAX_VALUE;
-		for ( Link currentLink : currentState.links ) {
-			int currentMetric = currentLink.getMetric(input);
-			if ( currentMetric < minMetric ) {
-				outputLink = currentLink;
+		for ( Link currentLink : currentStateEncoding.links ) {
+			if ( currentLink.input.equals(input) ) {
+				currentStateEncoding = currentLink.destination;
+				return currentLink.output; 
 			}
 		}		
-		if ( outputLink != null ) {
-			currentState = outputLink.destination;
-			return outputLink.output;
-		}
-		else {
-			throw new Exception("Link not found!");
-		}
+		throw new Exception("Link not found!");
 	}
 	
 	// decoding
 	public void startDecoding() {
 		decodingStarted = true;
-		currentState = source;
+		currentStateDecoding = source;
 	}
 	
 	public void stopDecoding() {
 		decodingStarted = false;
 	}
 	
-	public BitSet getNextSymbolDecoded(BitSet input) throws Exception {
-		//TODO
+	public BitSet getNextSymbolDecoded(BitSet output) throws Exception {
 		if ( !decodingStarted ) {
 			throw new Exception("You must call before startDecoding!");
 		}
 		Link outputLink = null;
 		int minMetric = Integer.MAX_VALUE;
-		for ( Link currentLink : currentState.links ) {
-			int currentMetric = currentLink.getMetric(input);
+		for ( Link currentLink : currentStateDecoding.links ) {
+			int currentMetric = currentLink.getMetric(output);
 			if ( currentMetric < minMetric ) {
 				outputLink = currentLink;
 			}
 		}		
 		if ( outputLink != null ) {
-			currentState = outputLink.destination;
-			return outputLink.output;
+			currentStateDecoding = outputLink.destination;
+			return outputLink.input;
 		}
 		else {
 			throw new Exception("Link not found!");
