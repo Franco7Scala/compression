@@ -6,5 +6,5 @@ package channel;
  *
  */
 public interface Channel {
-	public byte[] simulateTransmission(byte[] input);
+	public byte[] simulateTransmission(byte[] input, float error);
 }

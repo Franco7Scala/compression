@@ -6,7 +6,7 @@ package utilities;
  */
 public interface Constants {
 	
-	// Compression
+	// COMPRESSION
 	public static final String DECOMPRESSION_EXTENSION = "decompressing";
 	public static final byte EOF = -1;
 	
@@ -20,14 +20,14 @@ public interface Constants {
 	public static final String LZ78_COMPRESSION_EXTENSION = "lz78";
 	
 	
-	// Encoding
+	// ENCODING
 	public enum Factor {DIRECT, SINGLE_SHIFT, DOUBLE_SHIFT, TRIPLE_SHIFT, BLANK};
 	public static int BLOCK_SIZE = 8;
-	
-	// Block size constants
 	public static int SINGLE_BLOCK = 1;
 	public static int SINGLE_BLOCK_ENCODED = SINGLE_BLOCK + 1;
 	
 	
+	// TRANSMISSION
+	public static float DEFAULT_ERROR_WIFI = (float)0.00001;
 	
 }

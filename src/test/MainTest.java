@@ -18,7 +18,18 @@ public class MainTest {
 		
 		
 		
+		int b = 8;
+		int a = 7;
+
+		for( int i = 1; i <= b; i ++ ) {
+		    if( ((i*a) % b) == 0 ) {
+		        System.out.println("res: " + Math.abs(i*a));
+		    }
+		}
 		
+		
+		
+		/*
 		BitSet[] states = new BitSet[(int) Math.pow(2, 3)];
 		for ( int i = 0; i < states.length; i ++ ) {
 			states[i] = BitSet.valueOf(new long[] { i }).get(0, 3);
@@ -28,7 +39,7 @@ public class MainTest {
 			}
 			System.out.println("");
 		}
-		
+		*/
 		
 		/*
 		
