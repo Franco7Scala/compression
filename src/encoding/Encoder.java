@@ -1,9 +1,5 @@
 package encoding;
 
-
-import utilities.EncoderParameters;
-
-
 /**
  * @author francesco
  *

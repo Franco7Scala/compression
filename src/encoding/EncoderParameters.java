@@ -1,7 +1,7 @@
-package utilities;
+package encoding;
 
 
-import encoding.GraphCoder;
+import utilities.Constants;
 import utilities.Constants.Factor;
 
 
