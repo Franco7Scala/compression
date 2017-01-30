@@ -14,18 +14,43 @@ import energy.EnergyProfiler;
 import energy.EnergyProfilerMacOS;
 import utilities.Support;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 public class MainTest {
 
 	public static void main(String[] args) throws Exception {
 		
 		
 		
+		while (true) {
+			 OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+			  for (Method method : operatingSystemMXBean.getClass().getDeclaredMethods()) {
+			    method.setAccessible(true);
+			    if (method.getName().startsWith("get") 
+			        && Modifier.isPublic(method.getModifiers())) {
+			            Object value;
+			        try {
+			            value = method.invoke(operatingSystemMXBean);
+			        } catch (Exception e) {
+			            value = e;
+			        } // try
+			        System.out.println(method.getName() + " = " + value);
+			    } // if
+			  } // for
+			  Thread.sleep(1000);
+		}
 		
+		
+		  
+		
+		/*
 		
 		EnergyProfiler e = new EnergyProfilerMacOS();
 		int r = e.energyResidue();
 		System.out.println("END = " + r);
-		
+		*/
 		
 		
 		
