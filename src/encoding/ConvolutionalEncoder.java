@@ -13,10 +13,11 @@ import utilities.Fragmenter;
  *
  */
 public class ConvolutionalEncoder implements Encoder {
-
+	private long time;
 
 	@Override
 	public byte[] encode(String fileName, EncoderParameters parameters) throws Exception {
+		time = System.currentTimeMillis();
 		for( int i = 1; i <= 8; i ++ ) {
 			if( ( ( i * (parameters.k ) ) % 8 ) == 0 ) {
 				parameters.blockSize = Math.abs( i * (parameters.k) );
@@ -67,8 +68,14 @@ public class ConvolutionalEncoder implements Encoder {
 		finally {
 			try {
 				outputStream.close();
+				time = System.currentTimeMillis() - time;
 			} catch (IOException e) {}
 		}
+	}
+
+	@Override
+	public long elapsedTime() {
+		return time;
 	}
 
 

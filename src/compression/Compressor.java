@@ -1,5 +1,6 @@
 package compression;
 
+
 /**
  * @author francesco
  *
@@ -7,4 +8,7 @@ package compression;
 public interface Compressor {
 	public boolean compress(String fileName);
 	public boolean decompress(String fileName, Object dictionary);
+	public float compressionFactor();
+	public float averageEntropy();
+	public float averageLength();
 }

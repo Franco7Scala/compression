@@ -15,18 +15,18 @@ import utilities.Fragmenter;
 import utilities.Support;
 
 
-public class LempelZiv78 implements Compressor {
+public class LempelZiv78 extends AbstractCompressor {
 	private HashMap<Integer, List<Byte>> dictionary;
-
-	public CompressorDelegate delegate;
-
+	
 	
 	@Override
 	public boolean compress(String fileName) {
+		super.compress(fileName);
 		dictionary = new HashMap<Integer, List<Byte>>();
 		LinkedList<Byte> prefix = new LinkedList<>();
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
+		int outputSize = 0;
 		try {
 			fragmenter = new Fragmenter(fileName, 1);
 			File file = new File(fileName + "." + Constants.LZ78_COMPRESSION_EXTENSION);
@@ -47,6 +47,7 @@ public class LempelZiv78 implements Compressor {
 					if ( oldPointer == 0 ) {
 						outputStream.write(Support.intToByteArray(0));
 						outputStream.write(nextFragment);
+						outputSize += 5;
 						int newPosition = (dictionary.size() + 1);
 						dictionary.put(newPosition, new LinkedList<Byte>(prefix));
 						prefix.clear();
@@ -59,6 +60,7 @@ public class LempelZiv78 implements Compressor {
 					if ( containerPointer == 0 ) {
 						outputStream.write(Support.intToByteArray(oldPointer));
 						outputStream.write(prefix.getLast());
+						outputSize += 5;
 						int newPosition = (dictionary.size() + 1);
 						dictionary.put(newPosition, new LinkedList<Byte>(prefix));
 						prefix.clear();
@@ -72,6 +74,7 @@ public class LempelZiv78 implements Compressor {
 			}
 			if ( !prefix.isEmpty() ) {
 				outputStream.write(Support.intToByteArray(oldPointer));
+				outputSize += 5;
 			}
 			outputStream.write(Constants.EOF);
 		} catch (Exception e) {
@@ -79,6 +82,7 @@ public class LempelZiv78 implements Compressor {
 		}
 		finally {
 			try {
+				compressionFactor = 1 - ( outputSize / fragmenter.getFileSize() );
 				outputStream.close();
 				fragmenter.close();
 			} catch (Exception e) {}

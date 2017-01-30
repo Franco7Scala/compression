@@ -13,18 +13,16 @@ import utilities.Support;
  * @author francesco
  *
  */
-public class ArithmeticCompression implements Compressor {
-	private HashMap<Byte, Double> probabilities;
-	
-	public CompressorDelegate delegate;
+public class ArithmeticCompression extends AbstractCompressor {
 
 	
 	@Override
 	public boolean compress(String fileName) {
+		super.compress(fileName);
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
+		int outputSize = 0;
 		try {
-			generateProbabilities(fileName);
 			fragmenter = new Fragmenter(fileName, 1);
 			File file = new File(fileName + "." + Constants.ARITHMETIC_COMPRESSION_EXTENSION);
 			if ( !file.createNewFile() ) {
@@ -55,6 +53,7 @@ public class ArithmeticCompression implements Compressor {
 				}
 				double tag = lowerBound + ((upperBound - lowerBound)/2);
 				// saving TAG to file
+				outputSize += 8;
 				outputStream.write(Support.doubleToByteArray(tag));
 				pendingBlocks = Constants.MAX_READABLE_BYTES;
 			}
@@ -63,6 +62,7 @@ public class ArithmeticCompression implements Compressor {
 		}
 		finally {
 			try {
+				compressionFactor = 1 - ( outputSize / fragmenter.getFileSize() );
 				outputStream.close();
 				fragmenter.close();
 			} catch (Exception e) {}
@@ -150,29 +150,6 @@ public class ArithmeticCompression implements Compressor {
 
 	public HashMap<Byte, Double> getProbabilities() {
 		return probabilities;
-	}
-
-	private void generateProbabilities (String fileName) throws Exception {
-		double sum = 0;
-		probabilities = new HashMap<>();
-		Fragmenter fragmenter = new	Fragmenter(fileName, 1);
-		while ( fragmenter.hasMoreFragments() ) {
-			byte nextFragment = fragmenter.nextFragment()[0];
-			if ( probabilities.containsKey(nextFragment) ) {
-				double value = probabilities.get(nextFragment);
-				value ++;
-				probabilities.put(nextFragment, value);
-			}
-			else {
-				probabilities.put(nextFragment, (double)1);
-			}
-			sum ++;
-		}
-		//normalizing probabilities
-		for ( byte currentFragment : probabilities.keySet() ) {
-			probabilities.put(currentFragment, (probabilities.get(currentFragment)/sum) );			
-		}
-		fragmenter.close();
 	}
 
 
