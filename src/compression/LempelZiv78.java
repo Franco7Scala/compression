@@ -21,7 +21,8 @@ public class LempelZiv78 extends AbstractCompressor {
 	
 	@Override
 	public boolean compress(String fileName) {
-		super.compress(fileName);
+		probabilitiesGenerated = false;
+		this.fileName = fileName;
 		dictionary = new HashMap<Integer, List<Byte>>();
 		LinkedList<Byte> prefix = new LinkedList<>();
 		FileOutputStream outputStream = null;

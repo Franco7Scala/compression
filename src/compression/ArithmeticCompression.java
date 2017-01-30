@@ -18,11 +18,11 @@ public class ArithmeticCompression extends AbstractCompressor {
 	
 	@Override
 	public boolean compress(String fileName) {
-		super.compress(fileName);
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
 		int outputSize = 0;
 		try {
+			generateProbabilities(fileName);
 			fragmenter = new Fragmenter(fileName, 1);
 			File file = new File(fileName + "." + Constants.ARITHMETIC_COMPRESSION_EXTENSION);
 			if ( !file.createNewFile() ) {

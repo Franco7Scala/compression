@@ -13,20 +13,11 @@ import utilities.Fragmenter;
 public abstract class AbstractCompressor implements Compressor {
 	protected HashMap<Byte, Double> probabilities;
 	protected long compressionFactor;
+	protected boolean probabilitiesGenerated;
+	protected String fileName;
 
 	public CompressorDelegate delegate;
 
-
-	@Override
-	public boolean compress(String fileName) {
-		try {
-			generateProbabilities(fileName);
-		} 
-		catch (Exception e) {
-			return false;
-		}
-		return true;
-	}
 	
 	@Override
 	public float compressionFactor() {
@@ -35,6 +26,12 @@ public abstract class AbstractCompressor implements Compressor {
 
 	@Override
 	public float averageEntropy() {
+		if ( !probabilitiesGenerated ) {
+			try {
+				generateProbabilities(fileName);
+			} 
+			catch (Exception e) {}
+		}
 		float entropy = 0;
 		for ( double probability : probabilities.values() ) {
 			entropy += ( probability * ( Math.log(1/probability) / Math.log(2) ) );
@@ -44,6 +41,12 @@ public abstract class AbstractCompressor implements Compressor {
 	
 	@Override
 	public float averageLength() {
+		if ( !probabilitiesGenerated ) {
+			try {
+				generateProbabilities(fileName);
+			} 
+			catch (Exception e) {}
+		}
 		float length = 0;
 		for ( double probability : probabilities.values() ) {
 			length += ( probability * 8 );
@@ -51,7 +54,7 @@ public abstract class AbstractCompressor implements Compressor {
 		return length;
 	}
 	
-	protected void generateProbabilities (String fileName) throws Exception {
+	protected void generateProbabilities(String fileName) throws Exception {
 		double sum = 0;
 		probabilities = new HashMap<>();
 		Fragmenter fragmenter = new	Fragmenter(fileName, 1);
@@ -71,6 +74,7 @@ public abstract class AbstractCompressor implements Compressor {
 		for ( byte currentFragment : probabilities.keySet() ) {
 			probabilities.put(currentFragment, (probabilities.get(currentFragment)/sum) );			
 		}
+		probabilitiesGenerated = true;
 		fragmenter.close();
 	}
 	
