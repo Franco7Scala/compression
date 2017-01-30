@@ -10,12 +10,28 @@ import javax.swing.SortingFocusTraversalPolicy;
 import compression.ArithmeticCompression;
 import compression.Compressor;
 import compression.LempelZiv78;
+import energy.EnergyProfiler;
+import energy.EnergyProfilerMacOS;
 import utilities.Support;
 
 public class MainTest {
 
 	public static void main(String[] args) throws Exception {
 		
+		
+		
+		
+		
+		EnergyProfiler e = new EnergyProfilerMacOS();
+		int r = e.energyResidue();
+		System.out.println("END = " + r);
+		
+		
+		
+		
+		
+		
+		/*
 		
 		
 		int b = 8;
@@ -27,7 +43,7 @@ public class MainTest {
 		    }
 		}
 		
-		
+		*/
 		
 		/*
 		BitSet[] states = new BitSet[(int) Math.pow(2, 3)];

@@ -130,11 +130,6 @@ public class GraphCoder {
 			if (getClass() != obj.getClass())
 				return false;
 			Node other = (Node) obj;
-			if (links == null) {
-				if (other.links != null)
-					return false;
-			} else if (!links.equals(other.links))
-				return false;
 			if (value == null) {
 				if (other.value != null)
 					return false;
