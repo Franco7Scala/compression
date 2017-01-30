@@ -1,7 +1,6 @@
 package encoding;
 
 
-import utilities.Constants;
 import utilities.Constants.Factor;
 
 
