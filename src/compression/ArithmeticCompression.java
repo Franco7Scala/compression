@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import utilities.Constants;
+import utilities.Fragmenter;
 import utilities.Support;
-import utilities.objects.dataManager.Fragmenter;
 
 
 /**

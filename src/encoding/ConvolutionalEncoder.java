@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.BitSet;
 
-import utilities.objects.dataManager.Fragmenter;
+import utilities.Fragmenter;
 
 
 /**

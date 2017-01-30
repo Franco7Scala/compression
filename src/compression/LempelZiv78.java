@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import utilities.Constants;
+import utilities.Fragmenter;
 import utilities.Support;
-import utilities.objects.dataManager.Fragmenter;
 
 
 public class LempelZiv78 implements Compressor {
