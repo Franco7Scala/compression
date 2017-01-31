@@ -10,6 +10,8 @@ import javax.swing.SortingFocusTraversalPolicy;
 import compression.ArithmeticCompression;
 import compression.Compressor;
 import compression.LempelZiv78;
+import encoding.GraphCoder;
+import encoding.Polynomial;
 import energy.EnergyProfiler;
 import energy.EnergyProfilerMacOS;
 import utilities.Support;
@@ -27,6 +29,96 @@ public class MainTest {
 		
 		
 		
+		
+		
+		int x = 8;
+		GraphCoder g = Polynomial.getSimplePolynomial();
+		
+		BitSet u = BitSet.valueOf(new byte[] {22});
+		
+		
+		
+		System.out.println("\n-----INPUT-----");
+		for ( int a = 0; a < x; a ++ ) {
+			System.out.print( (u.get(a)? 1 : 0) + " ");
+		}
+
+
+		g.startEncoding();
+		
+		BitSet[] resss = new BitSet[8];
+		for ( int pene = 0; pene < 8; pene ++) {
+			resss[pene] = g.getNextSymbolEncoded(u.get(pene, pene+1));
+		}
+		
+		
+		
+		
+		
+		
+		
+		System.out.println("\n-----OUTPUT-----");
+		for ( int pene = 0; pene < 8; pene ++) {
+			for ( int a = 0; a < x; a ++ ) {
+				System.out.print( (resss[pene].get(a)? 1 : 0) + " ");
+			}
+			System.out.println("");
+		}
+
+		
+		
+		
+		g.startDecoding();
+		BitSet XXX = new BitSet(8);
+		for ( int pene = 0; pene < 8; pene ++) {
+			BitSet lll = g.getNextSymbolDecoded(resss[pene]);
+			System.out.println("lll");
+			for ( int a = 0; a < x; a ++ ) {
+				System.out.print( (lll.get(a)? 1 : 0) + " ");
+			}
+			System.out.println("\n");
+			
+			if ( lll.get(0) ) {
+				XXX.set(pene);
+			}
+			else {
+				XXX.clear(pene);
+			}
+		}
+
+		
+		
+		System.out.println("\n-----INPUT DEC-----");
+		for ( int a = 0; a < x; a ++ ) {
+			System.out.print( (XXX.get(a)? 1 : 0) + " ");
+		}
+		
+		
+		
+		
+		/*
+		 * 
+		 
+		 
+		 			
+
+			System.out.println("\n-----L-----");
+			for ( int a = 0; a < 2; a ++ ) {
+				System.out.print( (currentLink.input.get(a)? 1 : 0) + " ");
+			}
+			System.out.println("\n-----I-----");
+			for ( int a = 0; a < 2; a ++ ) {
+				System.out.print( (input.get(a)? 1 : 0) + " ");
+			}
+			
+			
+			
+			
+			
+			
+		 */
+		
+		/*
 		while (true) {
 			 OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
 			  for (Method method : operatingSystemMXBean.getClass().getDeclaredMethods()) {
@@ -44,7 +136,7 @@ public class MainTest {
 			  } // for
 			  Thread.sleep(1000);
 		}
-		
+		*/
 		
 		  
 		

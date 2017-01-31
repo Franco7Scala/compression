@@ -17,6 +17,7 @@ public class GraphCoder {
 	private Node currentStateDecoding;
 	private boolean encodingStarted;
 	private boolean decodingStarted;
+	private String description;
 	
 	
 	public GraphCoder(Node source) {
@@ -65,6 +66,8 @@ public class GraphCoder {
 				currentStateEncoding = currentLink.destination;
 				return currentLink.output; 
 			}
+			else {
+			}
 		}		
 		throw new Exception("Link not found!");
 	}
@@ -89,6 +92,7 @@ public class GraphCoder {
 			int currentMetric = currentLink.getMetric(output);
 			if ( currentMetric < minMetric ) {
 				outputLink = currentLink;
+				minMetric = currentMetric;
 			}
 		}		
 		if ( outputLink != null ) {
@@ -100,6 +104,23 @@ public class GraphCoder {
 		}
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	@Override
+	public String toString() {
+		String result = "nodes: " + nodes.size() + "\n";
+		for ( Node node : nodes ) {
+			result = result.concat(node.toString() + "\n\n");
+		}
+		return result;
+	}
+
 	// inner classes
 	public static class Node {
 		public BitSet value;
@@ -136,6 +157,19 @@ public class GraphCoder {
 			} else if (!value.equals(other.value))
 				return false;
 			return true;
+		}
+		
+		@Override
+		public String toString() {
+			String result = "NODE - value: ";
+			for ( int a = 0; a < 2; a ++ ) {
+				result = result.concat( (this.value.get(a)? 1 : 0) + " " );
+			}
+			result = result.concat("\n");
+			for ( Link link : links ) {
+				result = result.concat(link.toString());
+			}
+			return result;
 		}
 	}
 	
@@ -204,6 +238,28 @@ public class GraphCoder {
 			} else if (!source.equals(other.source))
 				return false;
 			return true;
+		}
+		
+		@Override
+		public String toString() {
+			String result = "LINK\nsource     : ";
+			for ( int a = 0; a < 2; a ++ ) {
+				result = result.concat( (this.source.value.get(a)? 1 : 0) + " " );
+			}
+			result = result.concat("\ndestination: ");
+			for ( int a = 0; a < 2; a ++ ) {
+				result = result.concat( (this.destination.value.get(a)? 1 : 0) + " " );
+			}
+			result = result.concat("\ninput : ");
+			for ( int a = 0; a < 1; a ++ ) {
+				result = result.concat( (this.input.get(a)? 1 : 0) + " " );
+			}
+			result = result.concat("\noutput: ");
+			for ( int a = 0; a < cardinality; a ++ ) {
+				result = result.concat( (this.output.get(a)? 1 : 0) + " " );
+			}
+			result = result.concat("\n");
+			return result;
 		}
 	}
 
