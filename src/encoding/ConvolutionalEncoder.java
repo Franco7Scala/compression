@@ -15,6 +15,7 @@ import utilities.Fragmenter;
 public class ConvolutionalEncoder implements Encoder {
 	private long time;
 
+	
 	@Override
 	public byte[] encode(String fileName, EncoderParameters parameters) throws Exception {
 		time = System.currentTimeMillis();
