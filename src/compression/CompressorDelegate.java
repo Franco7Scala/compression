@@ -6,5 +6,5 @@ package compression;
  *
  */
 public interface CompressorDelegate {
-	public void notifyAdvancement(long percentage);
+	public void notifyAdvancement(float percentage);
 }

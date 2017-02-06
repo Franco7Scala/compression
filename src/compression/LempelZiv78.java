@@ -38,7 +38,7 @@ public class LempelZiv78 extends AbstractCompressor {
 			int oldPointer = -1;
 			while ( fragmenter.hasMoreFragments() ) {
 				if ( delegate != null ) {
-					delegate.notifyAdvancement(fragmenter.getCurrentFragment()/fragmenter.getFileSize());
+					delegate.notifyAdvancement((float)fragmenter.getCurrentFragment()/(float)fragmenter.getFileSize());
 				}
 				byte nextFragment = fragmenter.nextFragment()[0];
 				prefix.add(nextFragment);

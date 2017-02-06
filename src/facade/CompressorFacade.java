@@ -42,6 +42,13 @@ public class CompressorFacade {
 	public String getCurrentCompressionMethod() {
 		return compressor.name();
 	}
+	
+	public String getStatiscticsCompression() {
+		return "Algorithm: " + compressor.name() + "\n" +
+	           "Compression factor: " + compressor.compressionFactor() + "\n" + 
+			   "Average Entropy: " + compressor.averageEntropy() + "\n" +
+			   "Average Length: " + compressor.averageLength();
+	}
 
 	public void setCurrentCompressionMethod(String compressionMethod) {
 		switch ( compressionMethod ) {
