@@ -9,19 +9,13 @@ import compression.CompressorDelegate;
 import facade.CompressorFacade;
 import ui.material.MaterialButton;
 import javax.swing.JProgressBar;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.Image;
-import ui.UISupport.*;
 
 
 public class UICompressor extends JFrame implements CompressorDelegate {
@@ -57,8 +51,8 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		txtDescription.setBounds(12, 47, 230, 65);
 		contentPane.add(txtDescription);
 		// UI Compress
-		MaterialButton btnCompress = new MaterialButton("Compress");
-		btnCompress.setIcon(UISupport.loadImage("/compress.png"));
+		MaterialButton btnCompress = new MaterialButton("");
+		btnCompress.setIcon(UISupport.loadImage("/images/zipper.png"));
 		btnCompress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if ( !inProgress ) {
@@ -76,10 +70,11 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 				}
 			}
 		});
-		btnCompress.setBounds(479, 18, 100, 100);
+		btnCompress.setBounds(490, 18, 80, 80);
 		contentPane.add(btnCompress);
 		// UI Decompress
-		MaterialButton btnDecompress = new MaterialButton("Decompress");
+		MaterialButton btnDecompress = new MaterialButton("");
+		btnDecompress.setIcon(UISupport.loadImage("/images/unzipper.png"));
 		btnDecompress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if ( !inProgress ) {
@@ -97,7 +92,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 				}
 			}
 		});
-		btnDecompress.setBounds(371, 18, 100, 100);
+		btnDecompress.setBounds(400, 18, 80, 80);
 		contentPane.add(btnDecompress);
 		// Box to select mode
 		JComboBox<String> comboBox = new JComboBox<>(methods); 
@@ -132,4 +127,6 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		progressBar.setValue(100);
 		progressLabel.setText("100 %");
 	}
+	
+	
 }
