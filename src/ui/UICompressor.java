@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import compression.CompressorDelegate;
 import facade.CompressorFacade;
+import ui.material.MaterialButton;
+
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
 import javax.swing.JComboBox;
@@ -51,7 +53,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		txtDescription.setBounds(12, 47, 210, 65);
 		contentPane.add(txtDescription);
 		// UI Compress
-		JButton btnCompress = new JButton("Compress");
+		MaterialButton btnCompress = new MaterialButton("Compress");
 		btnCompress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if ( !inProgress ) {
@@ -71,7 +73,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		btnCompress.setBounds(479, 18, 100, 100);
 		contentPane.add(btnCompress);
 		// UI Decompress
-		JButton btnDecompress = new JButton("Decompress");
+		MaterialButton btnDecompress = new MaterialButton("Decompress");
 		btnDecompress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if ( !inProgress ) {
@@ -113,7 +115,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 
 	@Override
 	public void notifyAdvancement(float percentage) {
-		if ( percentage >= 100 ) {
+		if ( (percentage*100) >= 100 ) {
 			inProgress = false;
 			txtDescription.setText(facade.getStatiscticsCompression());
 		}
