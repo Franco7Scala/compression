@@ -7,6 +7,9 @@ package utilities;
 public interface Constants {
 	
 	// COMPRESSION
+	public static final String ARITHMETIC_COMPRESSION = "Arithmetic Compression";
+	public static final String LZ78_COMPRESSION = "LZ78";
+	public static final String SM17_COMPRESSION = "SM17";
 	public static final String DECOMPRESSION_EXTENSION = "decompressing";
 	public static final byte EOF = -1;
 	

@@ -151,6 +151,11 @@ public class ArithmeticCompression extends AbstractCompressor {
 	public HashMap<Byte, Double> getProbabilities() {
 		return probabilities;
 	}
+	
+	@Override
+	public String name() {
+		return Constants.ARITHMETIC_COMPRESSION;
+	}
 
 
 }

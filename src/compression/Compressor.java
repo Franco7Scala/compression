@@ -11,4 +11,5 @@ public interface Compressor {
 	public float compressionFactor();
 	public float averageEntropy();
 	public float averageLength();
+	public String name();
 }

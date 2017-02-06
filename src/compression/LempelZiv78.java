@@ -170,6 +170,11 @@ public class LempelZiv78 extends AbstractCompressor {
 		}
 		return true;
 	}
+	
+	@Override
+	public String name() {
+		return Constants.LZ78_COMPRESSION;
+	}
 
 	
 }
