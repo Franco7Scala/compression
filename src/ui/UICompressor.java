@@ -9,13 +9,19 @@ import compression.CompressorDelegate;
 import facade.CompressorFacade;
 import ui.material.MaterialButton;
 import javax.swing.JProgressBar;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
+import ui.UISupport.*;
 
 
 public class UICompressor extends JFrame implements CompressorDelegate {
@@ -52,6 +58,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		contentPane.add(txtDescription);
 		// UI Compress
 		MaterialButton btnCompress = new MaterialButton("Compress");
+		btnCompress.setIcon(UISupport.loadImage("/compress.png"));
 		btnCompress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if ( !inProgress ) {
