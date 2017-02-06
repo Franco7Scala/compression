@@ -8,8 +8,6 @@ import javax.swing.border.EmptyBorder;
 import compression.CompressorDelegate;
 import facade.CompressorFacade;
 import ui.material.MaterialButton;
-
-import javax.swing.JButton;
 import javax.swing.JProgressBar;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
@@ -24,7 +22,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 	private static final long serialVersionUID = 1L;
 	// Logic
 	private CompressorFacade facade;
-	private String pathFile = "/esercizi/compression/test.tush";
+	private String pathFile = "/esercizi/compression/aaa.txt";
 	private boolean inProgress;
 	private String[] methods;
 	//UI elements
@@ -50,7 +48,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		txtDescription = new JTextArea();
 		txtDescription.setBackground(UIConstants.defaultColor);
 		txtDescription.setText("Select compression algorithm...");
-		txtDescription.setBounds(12, 47, 210, 65);
+		txtDescription.setBounds(12, 47, 230, 65);
 		contentPane.add(txtDescription);
 		// UI Compress
 		MaterialButton btnCompress = new MaterialButton("Compress");
@@ -59,9 +57,10 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 				if ( !inProgress ) {
 					new Thread() {
 						public void run() {
-							facade.compress(pathFile);
 							inProgress = true;
-						};
+							facade.compress(pathFile);
+							completed();
+						}
 					}.start();
 					txtDescription.setText("Compressing...");
 				}
@@ -79,8 +78,9 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 				if ( !inProgress ) {
 					new Thread() {
 						public void run() {
-							facade.decompress(pathFile);
 							inProgress = true;
+							facade.decompress(pathFile);
+							completed();
 						};
 					}.start();
 					txtDescription.setText("Decompressing...");
@@ -115,11 +115,14 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 
 	@Override
 	public void notifyAdvancement(float percentage) {
-		if ( (percentage*100) >= 100 ) {
-			inProgress = false;
-			txtDescription.setText(facade.getStatiscticsCompression());
-		}
 		progressBar.setValue((int)(percentage*100));
 		progressLabel.setText( (int)(percentage*100) + " %");
+	}
+
+	private void completed() {
+		inProgress = false;
+		txtDescription.setText(facade.getStatiscticsCompression());
+		progressBar.setValue(100);
+		progressLabel.setText("100 %");
 	}
 }
