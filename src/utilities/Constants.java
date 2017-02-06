@@ -29,5 +29,7 @@ public interface Constants {
 	
 	// TRANSMISSION
 	public static float DEFAULT_ERROR_WIFI = (float)0.00001;
+	public static final int NICE_STATE = 1;
+	public static final int BAD_STATE = 2;
 	
 }

@@ -32,7 +32,7 @@ public class MainTest {
 		
 		
 		int x = 8;
-		GraphCoder g = Polynomial.getSimplePolynomial();
+		GraphCoder g = Polynomial.get4StatesPolynomial();
 		
 		BitSet u = BitSet.valueOf(new byte[] {22});
 		
