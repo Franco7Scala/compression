@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import ui.utilities.FileDragDropListener;
+
 
 public class DragDropTestFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +33,7 @@ public class DragDropTestFrame extends JFrame {
 	    JLabel myLabel = new JLabel("Drag something here!", SwingConstants.CENTER);
 
 	    // Create the drag and drop listener
-	    MyDragDropListener myDragDropListener = new MyDragDropListener();
+	    FileDragDropListener myDragDropListener = new FileDragDropListener();
 	    files = myDragDropListener.getFiles();
 
 	    // Connect the label with a drag and drop listener

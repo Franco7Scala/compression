@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import engine.compression.CompressorDelegate;
 import engine.facade.CompressorFacade;
 import ui.swing.material.MaterialButton;
+import ui.utilities.FileDragDropListener;
 import ui.utilities.UIConstants;
 import ui.utilities.UISupport;
 
@@ -16,10 +17,13 @@ import javax.swing.JProgressBar;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.dnd.DropTarget;
 
 
 public class UICompressor extends JFrame implements CompressorDelegate {
@@ -33,6 +37,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 	private JProgressBar progressBar;
 	private JLabel progressLabel;
 	private JTextArea txtDescription;
+	private List<File> files;
 
 
 	public UICompressor() {
@@ -55,6 +60,16 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		txtDescription.setText("Select compression algorithm...");
 		txtDescription.setBounds(12, 47, 230, 65);
 		contentPane.add(txtDescription);
+		// UI dragNdrop
+		JLabel myLabel = new JLabel();
+		myLabel.setBackground(UIConstants.defaultColor);
+		myLabel.setIcon(UISupport.loadImage("/images/dragndrop.png"));
+		myLabel.setBounds(260, 28, 100, 100);
+		contentPane.add(myLabel);
+		FileDragDropListener myDragDropListener = new FileDragDropListener();
+		files = myDragDropListener.getFiles();
+		// Connect the label with a drag and drop listener
+		new DropTarget(myLabel, myDragDropListener);
 		// UI Compress
 		MaterialButton btnCompress = new MaterialButton("");
 		btnCompress.setIcon(UISupport.loadImage("/images/zipper.png"));

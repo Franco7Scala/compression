@@ -1,3 +1,4 @@
+package ui.utilities;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -8,7 +9,7 @@ import java.awt.dnd.DropTargetListener;
 import java.io.File;
 import java.util.List;
 
-class MyDragDropListener implements DropTargetListener {
+public class FileDragDropListener implements DropTargetListener {
 	
 	private List<File> files;
 
