@@ -36,6 +36,6 @@ public class MaterialButton extends JButton {
   
   public MaterialButton (String text, Color background, Color foreground, Color hover) {
     super (text);
-    configureSettings (background, foreground, hover);
+    configureSettings (Color.WHITE, Color.WHITE, Color.LIGHT_GRAY);
   }
 }

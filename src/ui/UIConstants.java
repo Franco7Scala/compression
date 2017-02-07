@@ -11,7 +11,7 @@ import java.awt.Color;
 public interface UIConstants {
 
 	
-	public static Color defaultColor = new Color(0, 255, 204);
+	public static Color defaultColor = new Color(178, 235, 242);
 	
 	
 }

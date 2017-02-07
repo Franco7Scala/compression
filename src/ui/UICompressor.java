@@ -127,6 +127,6 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		progressBar.setValue(100);
 		progressLabel.setText("100 %");
 	}
-	
-	
+
+
 }
