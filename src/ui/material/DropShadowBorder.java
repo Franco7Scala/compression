@@ -29,7 +29,12 @@ import javax.swing.border.Border;
  * @author rbair
  */
 public class DropShadowBorder extends AbstractBorder implements Border {
-  private static enum Position {TOP, TOP_LEFT, LEFT, BOTTOM_LEFT,
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+private static enum Position {TOP, TOP_LEFT, LEFT, BOTTOM_LEFT,
     BOTTOM, BOTTOM_RIGHT, RIGHT, TOP_RIGHT};
   
   private static final Map<Integer,Map<Position,BufferedImage>> CACHE 

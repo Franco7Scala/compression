@@ -8,7 +8,11 @@ import java.awt.Color;
 
 public class MaterialButton extends JButton {
   
-  private MaterialUIMovement animate;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+private MaterialUIMovement animate;
   
   private void configureSettings (Color background, Color foreground, Color hover) {
     this.setBackground (background);
