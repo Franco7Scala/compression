@@ -7,14 +7,14 @@ import java.util.HashMap;
 
 import javax.swing.SortingFocusTraversalPolicy;
 
-import compression.ArithmeticCompression;
-import compression.Compressor;
-import compression.LempelZiv78;
-import encoding.GraphCoder;
-import encoding.Polynomial;
-import energy.EnergyProfiler;
-import energy.EnergyProfilerMacOS;
-import utilities.Support;
+import engine.compression.ArithmeticCompression;
+import engine.compression.Compressor;
+import engine.compression.LempelZiv78;
+import engine.encoding.GraphCoder;
+import engine.encoding.Polynomial;
+import engine.energy.EnergyProfiler;
+import engine.energy.EnergyProfilerMacOS;
+import engine.utilities.Support;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
