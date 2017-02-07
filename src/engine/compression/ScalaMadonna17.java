@@ -10,9 +10,9 @@ public class ScalaMadonna17 extends AbstractCompressor {
 
 
 	@Override
-	public boolean compress(String fileName) {
+	public String compress(String fileName) throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override

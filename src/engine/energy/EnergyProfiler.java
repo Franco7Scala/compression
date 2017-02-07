@@ -6,6 +6,6 @@ package engine.energy;
  */
 public interface EnergyProfiler {
 	public int energyResidue();
-	public void energyConsumptionStartMonitoring(float clock, float EPI, float Em, float El);
+	public void energyConsumptionStartMonitoring();
 	public float energyConsumptionStopMonitoring();
 }

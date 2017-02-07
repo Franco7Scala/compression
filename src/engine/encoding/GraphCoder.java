@@ -18,6 +18,7 @@ public class GraphCoder {
 	private boolean encodingStarted;
 	private boolean decodingStarted;
 	private String description;
+	private EncoderParameters parameters;
 	
 	
 	public GraphCoder(Node source) {
@@ -110,6 +111,14 @@ public class GraphCoder {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public EncoderParameters getParameters() {
+		return parameters;
+	}
+
+	public void setParameters(EncoderParameters parameters) {
+		this.parameters = parameters;
 	}
 	
 	@Override

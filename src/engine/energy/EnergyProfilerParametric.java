@@ -21,17 +21,20 @@ public class EnergyProfilerParametric implements EnergyProfiler {
 	private double cpuUsageTime;
 
 
+	public EnergyProfilerParametric(float clock, float EPI, float Em, float El) {
+		this.clock = clock;
+		this.EPI = EPI;
+		this.Em = Em;
+		this.El = El;
+	}
+	
 	@Override
 	public int energyResidue() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void energyConsumptionStartMonitoring(float clock, float EPI, float Em, float El) {
-		this.clock = clock;
-		this.EPI = EPI;
-		this.Em = Em;
-		this.El = El;
+	public void energyConsumptionStartMonitoring() {
 		this.startTime = System.currentTimeMillis();
 		this.memoryUsage = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 		this.cpuUsageTime = getCPUUsageTime();

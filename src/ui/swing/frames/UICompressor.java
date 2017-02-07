@@ -37,7 +37,8 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 
 	public UICompressor() {
 		// linking UI with logic
-		facade = new CompressorFacade(this);
+		facade = CompressorFacade.sharedInstance();
+		facade.delegate = this;
 		inProgress = false;
 		methods = facade.getAllCompressionMethods();
 		// UI main panel

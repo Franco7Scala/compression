@@ -15,16 +15,24 @@ import engine.utilities.Constants;
  */
 public class CompressorFacade {
 	private AbstractCompressor compressor;
-	private CompressorDelegate delegate;
-
+	public CompressorDelegate delegate;
 	
-	public CompressorFacade(CompressorDelegate delegate) {
-		this.delegate = delegate;
+	private static CompressorFacade INSTANCE;
+	
+	
+	public static CompressorFacade sharedInstance() {
+		if ( INSTANCE == null ) {
+			INSTANCE = new CompressorFacade();
+		}
+		return INSTANCE;
+	}
+	
+	private CompressorFacade() {
 		setCurrentCompressionMethod(Constants.SM17_COMPRESSION);
 	}
 
-	public void compress(String fileName) {
-		compressor.compress(fileName);
+	public String compress(String fileName) {
+		return compressor.compress(fileName);
 	}
 	
 	public void decompress(String fileName) {

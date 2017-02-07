@@ -6,7 +6,7 @@ package engine.compression;
  *
  */
 public interface Compressor {
-	public boolean compress(String fileName);
+	public String compress(String fileName) throws Exception;
 	public boolean decompress(String fileName, Object dictionary);
 	public float compressionFactor();
 	public float averageEntropy();

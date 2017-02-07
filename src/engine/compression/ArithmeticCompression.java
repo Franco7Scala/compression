@@ -18,16 +18,18 @@ public class ArithmeticCompression extends AbstractCompressor {
 
 	
 	@Override
-	public boolean compress(String fileName) {
+	public String compress(String fileName) throws Exception {
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
 		int outputSize = 0;
+		String outputFileName = null;
 		try {
 			generateProbabilities(fileName);
 			fragmenter = new Fragmenter(fileName, 1);
-			File file = new File(fileName + "." + Constants.ARITHMETIC_COMPRESSION_EXTENSION);
+			outputFileName = fileName + "." + Constants.ARITHMETIC_COMPRESSION_EXTENSION;
+			File file = new File(outputFileName);
 			if ( !file.createNewFile() ) {
-				return false;
+				throw new Exception("Error creating output file!");
 			}
 			outputStream = new FileOutputStream(fileName + "." + Constants.ARITHMETIC_COMPRESSION_EXTENSION, true);
 			outputStream.write( Support.longToByteArray(fragmenter.getFileSize()) );
@@ -59,7 +61,7 @@ public class ArithmeticCompression extends AbstractCompressor {
 				pendingBlocks = Constants.MAX_READABLE_BYTES;
 			}
 		} catch (Exception e) {
-			return false;
+			throw e;
 		}
 		finally {
 			try {
@@ -68,7 +70,7 @@ public class ArithmeticCompression extends AbstractCompressor {
 				fragmenter.close();
 			} catch (Exception e) {}
 		}
-		return true;
+		return outputFileName;
 	}
 
 	@Override

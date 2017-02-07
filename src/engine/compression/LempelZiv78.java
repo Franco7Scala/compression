@@ -20,19 +20,21 @@ public class LempelZiv78 extends AbstractCompressor {
 	
 	
 	@Override
-	public boolean compress(String fileName) {
+	public String compress(String fileName) throws Exception {
 		probabilitiesGenerated = false;
 		this.fileName = fileName;
 		dictionary = new HashMap<Integer, List<Byte>>();
 		LinkedList<Byte> prefix = new LinkedList<>();
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
+		String outputFileName = null;
 		int outputSize = 0;
 		try {
 			fragmenter = new Fragmenter(fileName, 1);
-			File file = new File(fileName + "." + Constants.LZ78_COMPRESSION_EXTENSION);
+			outputFileName = fileName + "." + Constants.LZ78_COMPRESSION_EXTENSION;
+			File file = new File(outputFileName);
 			if ( !file.createNewFile() ) {
-				return false;
+				throw new Exception("Error creating output file!");
 			}
 			outputStream = new FileOutputStream(fileName + "." + Constants.LZ78_COMPRESSION_EXTENSION, true);
 			int oldPointer = -1;
@@ -79,7 +81,7 @@ public class LempelZiv78 extends AbstractCompressor {
 			}
 			outputStream.write(Constants.EOF);
 		} catch (Exception e) {
-			return false;
+			throw e;
 		}
 		finally {
 			try {
@@ -88,7 +90,7 @@ public class LempelZiv78 extends AbstractCompressor {
 				fragmenter.close();
 			} catch (Exception e) {}
 		}
-		return true;
+		return outputFileName;
 	}
 
 	private int search(List<Byte> prefix, HashMap<Integer, List<Byte>> dictionary) {

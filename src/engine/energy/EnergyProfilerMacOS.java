@@ -13,6 +13,11 @@ import engine.utilities.Support;
 public class EnergyProfilerMacOS extends EnergyProfilerParametric {
 
 	
+	
+	public EnergyProfilerMacOS() {
+		super(0, 0, 0, 0);
+	}
+
 	@Override
 	public int energyResidue() {
 		try {
