@@ -1,6 +1,7 @@
 package ui.utilities;
 
 
+import java.awt.Image;
 import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -19,6 +20,10 @@ public class UISupport {
 	public static ImageIcon loadImage(String path) {
 		URL url = UISupport.class.getClass().getResource(path);
 		return new ImageIcon(url);
+	}
+	
+	public static ImageIcon loadImageWithSize(String path, int height, int width) {
+		return new ImageIcon( loadImage(path).getImage().getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH) );  
 	}
 
 	public static void configureUI() {

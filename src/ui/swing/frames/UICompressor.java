@@ -71,8 +71,8 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		// UI dragNdrop
 		JLabel myLabel = new JLabel();
 		myLabel.setBackground(UIConstants.defaultColor);
-		myLabel.setIcon(UISupport.loadImage("/images/dragndrop.png"));
-		myLabel.setBounds(250, 28, 100, 100);
+		myLabel.setIcon(UISupport.loadImage("/images/stopped.png"));
+		myLabel.setBounds(223, 0, 140, 140);
 		contentPane.add(myLabel);
 		DropTargetListener myDragDropListener = new DropTargetListener() {
 			@Override
@@ -104,6 +104,15 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		                    files = (List<File>) transferable.getTransferData(flavor);
 		                    pathFile = files.get(files.size()-1).getPath();
 		                    txtDescription.setText("File loaded: " + pathFile.substring(pathFile.lastIndexOf('/')+1, pathFile.length()));
+		                    myLabel.setIcon(UISupport.loadImage("/images/animated.gif"));
+		                    new Thread () {
+		                    	public void run () {
+				                    try {
+										Thread.sleep(2400);
+									} catch (InterruptedException e) {}
+				                    myLabel.setIcon(UISupport.loadImage("/images/stopped.png"));
+		                    	}
+		                    }.start();
 		                }
 		            } catch (Exception e) {
 		                e.printStackTrace();
@@ -173,9 +182,11 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		// UI Progress bar
 		progressBar = new JProgressBar();
 		progressBar.setBounds(6, 137, 526, 20);
+		progressBar.setForeground(Color.WHITE);
 		contentPane.add(progressBar);
 		// UI Progress label
 		progressLabel = new JLabel(" -  %");
+		progressLabel.setForeground(Color.WHITE);
 		progressLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		progressLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		progressLabel.setBounds(518, 132, 61, 27);
