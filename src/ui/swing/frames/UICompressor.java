@@ -23,14 +23,21 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 
 
 public class UICompressor extends JFrame implements CompressorDelegate {
 	private static final long serialVersionUID = 1L;
 	// Logic
 	private CompressorFacade facade;
-	private String pathFile = "/esercizi/compression/aaa.txt";
+	private String pathFile = "";
 	private boolean inProgress;
 	private String[] methods;
 	//UI elements
@@ -66,8 +73,48 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		myLabel.setIcon(UISupport.loadImage("/images/dragndrop.png"));
 		myLabel.setBounds(260, 28, 100, 100);
 		contentPane.add(myLabel);
-		FileDragDropListener myDragDropListener = new FileDragDropListener();
-		files = myDragDropListener.getFiles();
+		DropTargetListener myDragDropListener = new DropTargetListener() {
+			@Override
+			public void dragEnter(DropTargetDragEvent dtde) {
+			}
+			@Override
+			public void dragOver(DropTargetDragEvent dtde) {
+			}
+			@Override
+			public void dropActionChanged(DropTargetDragEvent dtde) {
+			}
+			@Override
+			public void dragExit(DropTargetEvent dte) {
+			}
+			@Override
+			public void drop(DropTargetDropEvent event) {
+				// Accept copy drops
+		        event.acceptDrop(DnDConstants.ACTION_COPY);
+		        // Get the transfer which can provide the dropped item data
+		        Transferable transferable = event.getTransferable();
+		        // Get the data formats of the dropped item
+		        DataFlavor[] flavors = transferable.getTransferDataFlavors();
+		        // Loop through the flavors
+		        for (DataFlavor flavor : flavors) {
+		            try {
+		                // If the drop items are files
+		                if (flavor.isFlavorJavaFileListType()) {
+		                    // Get all of the dropped files
+		                    files = (List) transferable.getTransferData(flavor);
+		                    // Loop them through
+		                    for (File file : files) {
+		                        // Print out the file path
+		                        pathFile = files.get(files.size()-1).getPath();
+		                    }
+		                }
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+		        }
+		        // Inform that the drop is complete
+		        event.dropComplete(true);
+			}
+		};
 		// Connect the label with a drag and drop listener
 		new DropTarget(myLabel, myDragDropListener);
 		// UI Compress
@@ -79,6 +126,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 					new Thread() {
 						public void run() {
 							inProgress = true;
+							System.out.println("WEWEEEEE"+pathFile);
 							facade.compress(pathFile);
 							completed();
 						}

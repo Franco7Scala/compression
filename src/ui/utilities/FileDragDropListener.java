@@ -12,6 +12,11 @@ import java.util.List;
 public class FileDragDropListener implements DropTargetListener {
 	
 	private List<File> files;
+	private String pathFile;
+	
+	public FileDragDropListener(String pathFile) {
+		this.pathFile = pathFile;
+	}
 
 	@Override
     public void drop(DropTargetDropEvent event) {
@@ -41,6 +46,8 @@ public class FileDragDropListener implements DropTargetListener {
 
                         // Print out the file path
                         System.out.println("File path is '" + file.getPath() + "'.");
+                        this.pathFile = files.get(files.size()-1).getPath();
+                        System.out.println("CIAO CIAO :--> " + pathFile);
 
                     }
 
