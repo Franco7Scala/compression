@@ -15,6 +15,8 @@ import engine.utilities.Fragmenter;
 public class ConvolutionalEncoder implements Encoder {
 	private long time;
 
+	public EncoderDelegate delegate;
+	
 	
 	@Override
 	public byte[] encode(String fileName, EncoderParameters parameters) throws Exception {
@@ -28,6 +30,9 @@ public class ConvolutionalEncoder implements Encoder {
 		byte[] sequenceEncoded = new byte[ (int) ( (fragmenter.getFileSize() * 8) * (parameters.n) + 1 ) / 8 ];
 		int indexSequence = 0;
 		while ( fragmenter.hasMoreFragments() ) {
+			if ( delegate != null ) {
+				delegate.notifyAdvancementEncoding((float)fragmenter.getCurrentFragment()/(float)fragmenter.getFileSize());
+			}
 			BitSet set = BitSet.valueOf(fragmenter.nextFragment());
 			parameters.coder.startEncoding();
 			BitSet fragment = new BitSet( 8 * parameters.k );
@@ -53,6 +58,9 @@ public class ConvolutionalEncoder implements Encoder {
 			outputStream = new FileOutputStream(parameters.decodingOut, true);
 			BitSet set = BitSet.valueOf(input);
 			for ( int i = 0; i < set.size(); i += parameters.n ) {
+				if ( delegate != null ) {
+					delegate.notifyAdvancementEncoding((float)i/(float)set.size());
+				}
 				if ( i % parameters.blockSize == 0 ) {
 					parameters.coder.stopDecoding();
 					parameters.coder.startDecoding();

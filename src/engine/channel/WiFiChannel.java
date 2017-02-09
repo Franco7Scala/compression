@@ -3,7 +3,6 @@ package engine.channel;
 
 import java.util.BitSet;
 import java.util.Random;
-
 import engine.utilities.Constants;
 
 
@@ -13,6 +12,8 @@ import engine.utilities.Constants;
  */
 public class WiFiChannel implements Channel {
 	private float[][] chainMatrix = { {1, 0}, {1, 0} };
+	
+	public ChannelDelegate delegate;
 	
 
 	public WiFiChannel() {
@@ -30,6 +31,9 @@ public class WiFiChannel implements Channel {
 		int lengthChain = output.size(); 
 		int previousState = (random.nextInt(2) + 1);
 		for ( int i = 0; i < lengthChain; i ++ ) {
+			if ( delegate != null ) {
+				delegate.notifyAdvancementTransmission((float)i/(float)lengthChain);
+			}
 			float event = Math.abs(random.nextFloat()); 
 			if ( previousState == Constants.NICE_STATE ) {
 				if ( event <= getTransitionProbability(1, 2) ) {

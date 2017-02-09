@@ -31,7 +31,7 @@ public class CompressorFacade {
 		setCurrentCompressionMethod(Constants.SM17_COMPRESSION);
 	}
 
-	public String compress(String fileName) {
+	public String compress(String fileName) throws Exception {
 		return compressor.compress(fileName);
 	}
 	

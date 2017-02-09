@@ -40,7 +40,7 @@ public class LempelZiv78 extends AbstractCompressor {
 			int oldPointer = -1;
 			while ( fragmenter.hasMoreFragments() ) {
 				if ( delegate != null ) {
-					delegate.notifyAdvancement((float)fragmenter.getCurrentFragment()/(float)fragmenter.getFileSize());
+					delegate.notifyAdvancementCompression((float)fragmenter.getCurrentFragment()/(float)fragmenter.getFileSize());
 				}
 				byte nextFragment = fragmenter.nextFragment()[0];
 				prefix.add(nextFragment);
@@ -129,6 +129,9 @@ public class LempelZiv78 extends AbstractCompressor {
 			outputStream = new FileOutputStream(decompressedFileName, true);
 			int index = 1;
 			while ( fragmenter.hasMoreFragments() ) {
+				if ( delegate != null ) {
+					delegate.notifyAdvancementCompression((float)fragmenter.getCurrentFragment()/(float)fragmenter.getFileSize());
+				}
 				byte[] read = fragmenter.nextFragment();
 				int currentIndex = Support.byteArrayToInt(Arrays.copyOfRange(read, 0, 4));
 				if ( currentIndex == 0 ) {	

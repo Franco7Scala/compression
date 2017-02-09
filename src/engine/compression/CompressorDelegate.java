@@ -6,5 +6,5 @@ package engine.compression;
  *
  */
 public interface CompressorDelegate {
-	public void notifyAdvancement(float percentage);
+	public void notifyAdvancementCompression(float percentage);
 }

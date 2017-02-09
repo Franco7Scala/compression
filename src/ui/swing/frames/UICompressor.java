@@ -5,14 +5,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import engine.compression.CompressorDelegate;
 import engine.facade.CompressorFacade;
 import ui.swing.material.MaterialButton;
-import ui.utilities.FileDragDropListener;
 import ui.utilities.UIConstants;
 import ui.utilities.UISupport;
-
 import javax.swing.JProgressBar;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
@@ -22,6 +19,8 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -64,14 +63,16 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		// UI text description
 		txtDescription = new JTextArea();
 		txtDescription.setBackground(UIConstants.defaultColor);
-		txtDescription.setText("Select compression algorithm...");
+		txtDescription.setForeground(Color.WHITE);
+		txtDescription.setText("Select compression algorithm\n               And drag file here →");
 		txtDescription.setBounds(12, 47, 230, 65);
+		txtDescription.setEditable(false);
 		contentPane.add(txtDescription);
 		// UI dragNdrop
 		JLabel myLabel = new JLabel();
 		myLabel.setBackground(UIConstants.defaultColor);
 		myLabel.setIcon(UISupport.loadImage("/images/dragndrop.png"));
-		myLabel.setBounds(260, 28, 100, 100);
+		myLabel.setBounds(250, 28, 100, 100);
 		contentPane.add(myLabel);
 		DropTargetListener myDragDropListener = new DropTargetListener() {
 			@Override
@@ -100,12 +101,9 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		                // If the drop items are files
 		                if (flavor.isFlavorJavaFileListType()) {
 		                    // Get all of the dropped files
-		                    files = (List) transferable.getTransferData(flavor);
-		                    // Loop them through
-		                    for (File file : files) {
-		                        // Print out the file path
-		                        pathFile = files.get(files.size()-1).getPath();
-		                    }
+		                    files = (List<File>) transferable.getTransferData(flavor);
+		                    pathFile = files.get(files.size()-1).getPath();
+		                    txtDescription.setText("File loaded: " + pathFile.substring(pathFile.lastIndexOf('/')+1, pathFile.length()));
 		                }
 		            } catch (Exception e) {
 		                e.printStackTrace();
@@ -126,8 +124,9 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 					new Thread() {
 						public void run() {
 							inProgress = true;
-							System.out.println("WEWEEEEE"+pathFile);
-							facade.compress(pathFile);
+							try {
+								facade.compress(pathFile);
+							} catch (Exception e) {}
 							completed();
 						}
 					}.start();
@@ -184,7 +183,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 	}
 
 	@Override
-	public void notifyAdvancement(float percentage) {
+	public void notifyAdvancementCompression(float percentage) {
 		progressBar.setValue((int)(percentage*100));
 		progressLabel.setText( (int)(percentage*100) + " %");
 	}

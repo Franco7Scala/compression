@@ -1,9 +1,11 @@
 package engine.facade;
 
 
+import engine.channel.ChannelDelegate;
+import engine.channel.WiFiChannel;
 import engine.compression.CompressorDelegate;
 import engine.encoding.ConvolutionalEncoder;
-import engine.encoding.Encoder;
+import engine.encoding.EncoderDelegate;
 import engine.encoding.EncoderParameters;
 import engine.encoding.Polynomial;
 import engine.energy.EnergyProfiler;
@@ -14,14 +16,16 @@ import engine.utilities.SimulatorDelegate;
  * @author francesco
  *
  */
-public class SimulatorFacade implements CompressorDelegate {
+public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, EncoderDelegate {
 	// compression
 	private CompressorFacade compressor;
 	private EnergyProfiler energyProfiler;
 	private String fileName;
 	// encoding
-	private Encoder encoder;
+	private ConvolutionalEncoder encoder;
 	private EncoderParameters encoderParameters;
+	// transmission 
+	private WiFiChannel channel;
 	
 	public SimulatorDelegate delegate;
 
@@ -36,8 +40,12 @@ public class SimulatorFacade implements CompressorDelegate {
 	}
 	
 	private SimulatorFacade() {
+		compressor = CompressorFacade.sharedInstance();
 		compressor.delegate = this;
 		encoder = new ConvolutionalEncoder();
+		encoder.delegate = this;
+		channel = new WiFiChannel();
+		channel.delegate = this;
 	}
 
 	// Simulation
@@ -46,17 +54,44 @@ public class SimulatorFacade implements CompressorDelegate {
 		// compression
 		delegate.notifyMessage("Compressing file with algorithm " + compressor.getCurrentCompressionMethod() + "...");
 		energyProfiler.energyConsumptionStartMonitoring();
-		String outputFileName = compressor.compress(fileName);
+		String outputFileName = null;
+		try {
+			outputFileName = compressor.compress(fileName);
+		} catch (Exception e) {
+			delegate.notifyMessage("Oops...\nSomething went wrong during compression!");
+			return;
+		}
 		float consumption = energyProfiler.energyConsumptionStopMonitoring();
 		delegate.notifyMessage("Compression completed!\nEnergy elapsed: " + consumption);
 		// encoding
 		delegate.notifyMessage("Encoding data...");
+		byte [] encodedData = null;
 		try {
-			encoder.encode(outputFileName, encoderParameters);
-		} catch (Exception e) {}
+			encodedData = encoder.encode(outputFileName, encoderParameters);
+		} catch (Exception e) {
+			delegate.notifyMessage("Oops...\nSomething went wrong during encoding!");
+			return;
+		}
 		delegate.notifyMessage("Encoding completed...");
 		// transmission
 		delegate.notifyMessage("Transmitting data...");
+		byte[] transmittedData = channel.simulateTransmission(encodedData);
+		delegate.notifyMessage("End transmission data...");
+		// resetting percentages
+		delegate.notifyCompressionAdvancement(0);
+		delegate.notifyChannelAdvancement(0);
+		delegate.notifyEncodingAdvancement(0);
+		// decoding
+		delegate.notifyMessage("Decoding data...");
+		encoder.decode(transmittedData, encoderParameters);
+		delegate.notifyMessage("Decoding completed...");
+		// decompression
+		delegate.notifyMessage("Decompressing file...");
+		energyProfiler.energyConsumptionStartMonitoring();
+		compressor.decompress(encoderParameters.decodingOut);
+		consumption = energyProfiler.energyConsumptionStopMonitoring();
+		delegate.notifyMessage("Decompression completed!\nEnergy elapsed: " + consumption);
+		delegate.notifyMessage("Simulation terminated!");
 	}
 	
 	// Compression
@@ -86,24 +121,26 @@ public class SimulatorFacade implements CompressorDelegate {
 	}
 	
 	// Transmission
-	
-	
-	//TODO mettere delegati in transmission e encoding
-	
-	
-	
-	
-	
+	public void setChannelMatrix(float[][] matrix) {
+		channel = new WiFiChannel(matrix);
+		channel.delegate = this;
+	}
 	
 	// chain delegation
 	@Override
-	public void notifyAdvancement(float percentage) {
+	public void notifyAdvancementCompression(float percentage) {
 		delegate.notifyCompressionAdvancement(percentage);
 	}
 
+	@Override
+	public void notifyAdvancementTransmission(float percentage) {
+		delegate.notifyChannelAdvancement(percentage);
+	}
 
-
-
+	@Override
+	public void notifyAdvancementEncoding(float percentage) {
+		delegate.notifyEncodingAdvancement(percentage);
+	}
 	
 	
 }

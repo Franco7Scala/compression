@@ -39,7 +39,7 @@ public class ArithmeticCompression extends AbstractCompressor {
 				double upperBound = Constants.UPPER_BOUND;
 				while ( (pendingBlocks > 0) && fragmenter.hasMoreFragments() ) {
 					if ( delegate != null ) {
-						delegate.notifyAdvancement(fragmenter.getCurrentFragment()/fragmenter.getFileSize());
+						delegate.notifyAdvancementCompression((float)fragmenter.getCurrentFragment()/(float)fragmenter.getFileSize());
 					}
 					pendingBlocks --;
 					double intervalSize = upperBound - lowerBound;
@@ -100,7 +100,10 @@ public class ArithmeticCompression extends AbstractCompressor {
 			}
 			outputStream = new FileOutputStream(decompressedFileName, true);
 			long read = 0;
-			while ( fragmenter.hasMoreFragments() && (read < fileSize) ) { 
+			while ( fragmenter.hasMoreFragments() && (read < fileSize) ) {
+				if ( delegate != null ) {
+					delegate.notifyAdvancementCompression((float)fragmenter.getCurrentFragment()/(float)fragmenter.getFileSize());
+				}
 				double lowerBound = Constants.LOWER_BOUD;
 				double upperBound = Constants.UPPER_BOUND;
 				double tag = Support.byteArrayToDouble(fragmenter.nextFragment());				
