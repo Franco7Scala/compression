@@ -1,4 +1,4 @@
-package ui.swing.material;
+package ui.compressor.material;
 
 import java.awt.Font;
 import java.awt.Color;

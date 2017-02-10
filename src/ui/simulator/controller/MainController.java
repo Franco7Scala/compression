@@ -1,4 +1,4 @@
-package ui.fx;
+package ui.simulator.controller;
 
 
 import java.net.URL;
@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 
 
-public class Controller implements Initializable, SimulatorDelegate {
+public class MainController implements Initializable, SimulatorDelegate {
 	private SimulatorFacade facade = SimulatorFacade.sharedInstance();
 
 

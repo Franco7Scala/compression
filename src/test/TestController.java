@@ -1,4 +1,4 @@
-package ui.fx;
+package test;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import ui.utilities.UISupport;
+import ui.compressor.utilities.UISupport;
 
 public class TestController implements Initializable {
 	

@@ -1,4 +1,4 @@
-package ui.utilities;
+package ui.compressor.utilities;
 
 
 import java.awt.Color;

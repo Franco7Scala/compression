@@ -1,4 +1,4 @@
-package ui.swing.frames;
+package ui.compressor.frames;
 
 
 import javax.swing.JFrame;
@@ -7,9 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import engine.compression.CompressorDelegate;
 import engine.facade.CompressorFacade;
-import ui.swing.material.MaterialButton;
-import ui.utilities.UIConstants;
-import ui.utilities.UISupport;
+import ui.compressor.material.MaterialButton;
+import ui.compressor.utilities.UIConstants;
+import ui.compressor.utilities.UISupport;
+
 import javax.swing.JProgressBar;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;

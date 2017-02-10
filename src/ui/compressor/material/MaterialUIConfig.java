@@ -1,4 +1,4 @@
-package ui.swing.material;
+package ui.compressor.material;
 
 import javax.swing.UIManager;
 import javax.swing.BorderFactory;

@@ -1,5 +1,6 @@
 package test;
 
+/*
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.BitSet;
@@ -20,7 +21,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-
+*/
 
 
 public class MainTest {
@@ -29,7 +30,7 @@ public class MainTest {
 		
 		
 		
-		
+		/*
 		
 		int x = 8;
 		GraphCoder g = Polynomial.get4StatesPolynomial();
@@ -94,7 +95,7 @@ public class MainTest {
 		}
 		
 		
-		
+		*/
 		
 		/*
 		 * 

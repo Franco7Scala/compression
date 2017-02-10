@@ -1,7 +1,7 @@
 package main;
 
 
-import ui.swing.frames.UICompressor;
+import ui.compressor.frames.UICompressor;
 
 
 /**
