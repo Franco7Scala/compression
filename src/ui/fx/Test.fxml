@@ -19,11 +19,11 @@
                         <Font name="System Font" size="25.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dragNdropLabel" layoutX="111.0" layoutY="95.0" prefHeight="84.0" prefWidth="87.0" text="Label" />
-                  <JFXTextField fx:id="clockTextField" layoutX="79.0" layoutY="348.0" text="clock" />
-                  <JFXTextField fx:id="epiTextField" layoutX="79.0" layoutY="398.0" text="epi" />
-                  <JFXTextField fx:id="emTextField" layoutX="79.0" layoutY="448.0" text="em" />
-                  <JFXTextField fx:id="elTextField" layoutX="79.0" layoutY="498.0" />
+                  <Label fx:id="dragNdropLabel" layoutX="111.0" layoutY="95.0" prefHeight="84.0" prefWidth="87.0" text="Label" textAlignment="CENTER" />
+                  <JFXTextField fx:id="clockTextField" layoutX="79.0" layoutY="348.0" promptText="clock" />
+                  <JFXTextField fx:id="epiTextField" layoutX="79.0" layoutY="398.0" promptText="epi" />
+                  <JFXTextField fx:id="emTextField" layoutX="79.0" layoutY="448.0" promptText="em" />
+                  <JFXTextField fx:id="elTextField" layoutX="79.0" layoutY="498.0" promptText="el" />
                   <JFXComboBox fx:id="methodsComboBox" layoutX="73.0" layoutY="207.0" prefHeight="27.0" prefWidth="155.0" />
                   <Label fx:id="energyParametersLabel" layoutX="102.0" layoutY="313.0" text="Energy parameters" />
                   <JFXButton fx:id="provaButton" layoutX="125.0" layoutY="569.0" onAction="#print" text="PROVA" />

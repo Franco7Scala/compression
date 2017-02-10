@@ -2,6 +2,7 @@ package ui.fx;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
@@ -11,10 +12,15 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
 import engine.facade.SimulatorFacade;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import ui.utilities.UISupport;
 
 public class TestController implements Initializable {
 	
@@ -51,14 +57,18 @@ public class TestController implements Initializable {
     @FXML
     void print(ActionEvent event) {
     	System.out.println(clockTextField.getText());
+    	System.out.println(methodsComboBox.getSelectionModel().getSelectedItem());
     }
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		facade = SimulatorFacade.sharedInstance();
 		methods = facade.getAllCompressionMethods();
-		Arrays.asList(methods);
-		methodsComboBox = new JFXComboBox();
-		
+		methodsComboBox.getItems().clear();
+		methodsComboBox.setItems(FXCollections.observableList(Arrays.asList(methods)));
+		methodsComboBox.getSelectionModel().selectFirst();
+
+
 	}
 
 }
