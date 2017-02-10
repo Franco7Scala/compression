@@ -73,6 +73,8 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 			return;
 		}
 		delegate.notifyMessage("Encoding completed...");
+		delegate.notifyMessage("Statisctics:");
+		delegate.notifyMessage(compressor.getStatiscticsCompression());
 		// transmission
 		delegate.notifyMessage("Transmitting data...");
 		byte[] transmittedData = channel.simulateTransmission(encodedData);

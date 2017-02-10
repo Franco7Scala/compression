@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="420.0" minWidth="700.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.fx.Controller">
+	<children>
+		<SplitPane dividerPositions="0.22077922077922077, 0.4458874458874459, 0.670995670995671" minHeight="420.0" minWidth="700.0" prefHeight="417.0" prefWidth="926.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<items>
+				<AnchorPane minWidth="200" prefHeight="415.0" prefWidth="200" />
+				<AnchorPane minWidth="200" prefHeight="415.0" prefWidth="200" />
+				<AnchorPane minWidth="200" prefHeight="160.0" prefWidth="200" style="-fx-background-color: #D7CCC8;">
+					<children>
+						<Label alignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #D7CCC8;" text="WiFi Channel" textAlignment="CENTER" textFill="#3E2723" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<font>
+								<Font name="System Font Regular" size="25.0" />
+							</font>
+						</Label>
+                  <JFXTextField fx:id="a11" alignment="CENTER" focusColor="#3E2723" layoutX="39.0" layoutY="71.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="50.0" text="1" AnchorPane.leftAnchor="40.0">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXTextField fx:id="a12" alignment="CENTER" focusColor="#3E2723" labelFloat="true" layoutX="113.0" layoutY="71.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="50.0" text="0" AnchorPane.rightAnchor="40.0">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXTextField fx:id="a21" alignment="CENTER" focusColor="#3E2723" layoutX="39.0" layoutY="150.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="50.0" text="1" AnchorPane.leftAnchor="40.0">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXTextField fx:id="a22" alignment="CENTER" focusColor="#3E2723" layoutX="113.0" layoutY="150.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="50.0" text="0" AnchorPane.rightAnchor="40.0">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXProgressBar fx:id="progressChannel" layoutY="391.0" progress="0.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label layoutX="13.0" layoutY="229.0" prefHeight="91.0" prefWidth="174.0" text="This setting can be used to determinate the error on the WiFi channel, this matrix represent a markovian model that determinate the transitition between good and bad state." textAlignment="JUSTIFY" textFill="#3E2723" wrapText="true" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="doneChannelButton" alignment="CENTER" buttonType="RAISED" layoutX="72.0" layoutY="323.0" onAction="#doneChannel" prefWidth="50.0" ripplerFill="#4E342E" style="-fx-background-color: #8D6E63;" text="Done" textAlignment="CENTER" textFill="#fffdfd" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" />
+					</children>
+				</AnchorPane>
+				<AnchorPane minWidth="300" prefHeight="415.0" style="-fx-background-color: #FFE0B2;">
+                	<children>
+                  		<Label fx:id="logOutputPanel" layoutX="14.0" layoutY="34.0" prefHeight="372.0" prefWidth="272.0" style="-fx-background-color: WHITE;" textFill="BLACK" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0" />
+               			<JFXButton fx:id="loadSimulationButton" alignment="CENTER" buttonType="FLAT" layoutX="0" layoutY="0" onAction="#loadSimulation" prefWidth="100.0" ripplerFill="#FF6D00" style="-fx-background-color: #FB8C00;" text="Simulate" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
+               		</children>
+               </AnchorPane>
+			</items>
+		</SplitPane>
+	</children>
+</AnchorPane>
