@@ -109,7 +109,7 @@ public class UICompressor extends JFrame implements CompressorDelegate {
 		                    new Thread () {
 		                    	public void run () {
 				                    try {
-										Thread.sleep(2400);
+										Thread.sleep(2200);
 									} catch (InterruptedException e) {}
 				                    myLabel.setIcon(UISupport.loadImage("/images/stopped.png"));
 		                    	}
