@@ -200,8 +200,8 @@ public class MainController implements Initializable, SimulatorDelegate {
 	}
 
 	@Override
-	public void notifyMessage(String messsage) {
-		logOutputPanel.setText( logOutputPanel.getText() + "\n" + messsage);
+	public void notifyMessage(String message) {
+		logOutputPanel.setText( logOutputPanel.getText() + "\n" + message);
 		ScrollBar scrollBar = (ScrollBar)logOutputPanel.lookup(".scroll-bar:vertical");
 		if ( scrollBar != null ) {
 			scrollBar.setStyle("-fx-opacity: 0;");
@@ -210,8 +210,17 @@ public class MainController implements Initializable, SimulatorDelegate {
 
 	@Override
 	public void notifyImportantMessage(String message) {
+		showDialog("Message", message);
+	}
+
+	@Override
+	public void notifyErrorMessage(String message) {
+		showDialog("Oops...", message);
+	}
+	
+	private void showDialog(String title, String message) {
 		JFXDialogLayout content = new JFXDialogLayout();
-		content.setHeading(new Text("Oops..."));
+		content.setHeading(new Text(title));
 		content.setBody(new Text(message));
 		JFXDialog dialog = new JFXDialog(container, content, JFXDialog.DialogTransition.CENTER);
 		JFXButton button = new JFXButton("Close");
