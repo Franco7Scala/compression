@@ -1,8 +1,10 @@
 package ui.simulator.controller;
 
 
+import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -19,20 +21,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.TransferMode;
 
 
 public class MainController implements Initializable, SimulatorDelegate {
 	private SimulatorFacade facade = SimulatorFacade.sharedInstance();
 	private EncoderParameters parameters;
 	private String compressionMethod;
+	private String fileName;
 
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		facade.delegate = this;
-		// 2st panel
-		//TODO file
+		// 1st panel
 		methodsComboBox.getItems().clear();
 		methodsComboBox.setItems(FXCollections.observableList(Arrays.asList(facade.getAllCompressionMethods())));
 		methodsComboBox.getSelectionModel().selectFirst();
@@ -73,7 +78,11 @@ public class MainController implements Initializable, SimulatorDelegate {
 	}
 	
 	// 1st panel
-	//TODO file
+	@FXML
+    private Label dragNdropLabel;
+	
+	@FXML
+    private Label fileNameLabel;
 	
     @FXML
     private JFXComboBox<String> methodsComboBox;
@@ -131,7 +140,16 @@ public class MainController implements Initializable, SimulatorDelegate {
 	void changeCompressionMethod(ActionEvent event) {
 		compressionMethod = methodsComboBox.getValue();
 	}
-	//TODO file
+	
+	@FXML
+    void captureFileName(DragEvent event) {
+      Dragboard board = event.getDragboard();
+      if (board.hasFiles()) {
+        List<File> files = board.getFiles();
+        fileName = files.get(files.size()-1).getAbsolutePath();
+        fileNameLabel.setText("File loaded: " + fileName.substring(fileName.lastIndexOf('/')+1, fileName.length()));
+      }
+    }
 	
 	// 2nd panel
 	@FXML
@@ -144,7 +162,7 @@ public class MainController implements Initializable, SimulatorDelegate {
 	@FXML
 	void loadSimulation(ActionEvent event) {
 		// configuring compression
-		//TODO file
+		facade.setFileName(fileName);
 		facade.setCurrentCompressionMethod(compressionMethod);
 		facade.setEnergyProfiler(new EnergyProfilerParametric(Float.parseFloat(clockTextField.getText()), 
 															  Float.parseFloat(epiTextField.getText()), 
