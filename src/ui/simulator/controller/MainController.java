@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import engine.encoding.EncoderParameters;
@@ -25,6 +26,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 
 public class MainController implements Initializable, SimulatorDelegate {
@@ -77,8 +80,8 @@ public class MainController implements Initializable, SimulatorDelegate {
 		}
 	}
 	
-	@FXML 
-	private JFXDialog dialog;
+	@FXML
+    private StackPane container;
 	
 	// 1st panel
 	@FXML
@@ -164,7 +167,6 @@ public class MainController implements Initializable, SimulatorDelegate {
 	// 4th panel
 	@FXML
 	void loadSimulation(ActionEvent event) {
-		notifyImportantMessage("asdasdasdasd");
 		// configuring compression
 		facade.setFileName(fileName);
 		facade.setCurrentCompressionMethod(compressionMethod);
@@ -207,6 +209,11 @@ public class MainController implements Initializable, SimulatorDelegate {
 
 	@Override
 	public void notifyImportantMessage(String messsage) {
+		System.out.println("called");
+		JFXDialogLayout content = new JFXDialogLayout();
+		content.setHeading(new Text("PENE"));
+		content.setBody(new Text("content"));
+		JFXDialog dialog = new JFXDialog(container, content, JFXDialog.DialogTransition.CENTER);
 		dialog.show();
 	}
 	

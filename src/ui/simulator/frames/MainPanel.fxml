@@ -12,8 +12,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.StackPane?>
 
 <AnchorPane minHeight="420.0" minWidth="700.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.simulator.controller.MainController">
+	<children>
+	<StackPane fx:id="container" minHeight="420.0" minWidth="700.0" prefHeight="417.0" prefWidth="926.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
 	<children>
 		<SplitPane dividerPositions="0.22077922077922077, 0.4458874458874459, 0.5" minHeight="420.0" minWidth="700.0" prefHeight="417.0" prefWidth="926.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<items>
@@ -33,7 +36,7 @@
                         </ImageView>
                      </graphic>
                   </Label>
-                  <Label fx:id="energyParametersLabel" alignment="CENTER" layoutX="10.0" layoutY="244.0" text="Energy parameters" textFill="#3e2723" AnchorPane.bottomAnchor="157.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                  <Label fx:id="energyParametersLabel" alignment="CENTER" layoutX="10.0" layoutY="238.0" text="Energy parameters" textFill="#3e2723" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                   <JFXProgressBar fx:id="progressCompression" layoutY="394.0" progress="0.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #D7CCC8;" text="Compression" textAlignment="CENTER" textFill="#3E2723" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
@@ -45,7 +48,6 @@
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <JFXDialog fx:id="dialog" prefHeight="188.0" prefWidth="365.0" />
                </children>
             </AnchorPane>
 				<AnchorPane minWidth="200" prefHeight="415.0" prefWidth="200" style="-fx-background-color: #D7CCC8;"> 
@@ -107,5 +109,7 @@
                </AnchorPane>
 			</items>
 		</SplitPane>
+		</children>
+		</StackPane>
 	</children>
 </AnchorPane>
