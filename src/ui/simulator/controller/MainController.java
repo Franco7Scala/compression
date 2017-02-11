@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import engine.encoding.EncoderParameters;
+import engine.energy.EnergyProfilerParametric;
 import engine.facade.SimulatorFacade;
 import engine.utilities.SimulatorDelegate;
 import javafx.collections.FXCollections;
@@ -24,13 +25,18 @@ import javafx.scene.input.KeyEvent;
 public class MainController implements Initializable, SimulatorDelegate {
 	private SimulatorFacade facade = SimulatorFacade.sharedInstance();
 	private EncoderParameters parameters;
+	private String compressionMethod;
 
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		facade.delegate = this;
-		//TODO
-
+		// 2st panel
+		//TODO file
+		methodsComboBox.getItems().clear();
+		methodsComboBox.setItems(FXCollections.observableList(Arrays.asList(facade.getAllCompressionMethods())));
+		methodsComboBox.getSelectionModel().selectFirst();
+		changeCompressionMethod(null);
 		// 2nd panel
 		polynomialsComboBox.getItems().clear();
 		polynomialsComboBox.setItems(FXCollections.observableList(Arrays.asList(facade.getPolynomials())));
@@ -67,9 +73,25 @@ public class MainController implements Initializable, SimulatorDelegate {
 	}
 	
 	// 1st panel
+	//TODO file
+	
+    @FXML
+    private JFXComboBox<String> methodsComboBox;
+	
 	@FXML
+    private JFXTextField clockTextField;
+
+    @FXML
+    private JFXTextField epiTextField;
+
+    @FXML
+    private JFXTextField emTextField;
+
+    @FXML
+    private JFXTextField elTextField;
+    
+    @FXML
 	private JFXProgressBar progressCompression;
-	//TODO
 	
 	// 2nd panel
 	@FXML
@@ -105,7 +127,11 @@ public class MainController implements Initializable, SimulatorDelegate {
 	private TextArea logOutputPanel;
 
 	// 1st panel
-	//TODO
+	@FXML
+	void changeCompressionMethod(ActionEvent event) {
+		compressionMethod = methodsComboBox.getValue();
+	}
+	//TODO file
 	
 	// 2nd panel
 	@FXML
@@ -118,7 +144,12 @@ public class MainController implements Initializable, SimulatorDelegate {
 	@FXML
 	void loadSimulation(ActionEvent event) {
 		// configuring compression
-		//TODO
+		//TODO file
+		facade.setCurrentCompressionMethod(compressionMethod);
+		facade.setEnergyProfiler(new EnergyProfilerParametric(Float.parseFloat(clockTextField.getText()), 
+															  Float.parseFloat(epiTextField.getText()), 
+															  Float.parseFloat(emTextField.getText()), 
+															  Float.parseFloat(elTextField.getText())));
 		// configuring encoding
 		facade.setEncoderParameters(parameters);
 		// configuring channel

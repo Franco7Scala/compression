@@ -14,7 +14,15 @@
 	<children>
 		<SplitPane dividerPositions="0.22077922077922077, 0.4458874458874459, 0.670995670995671" minHeight="420.0" minWidth="700.0" prefHeight="417.0" prefWidth="926.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<items>
-				<AnchorPane minWidth="200" prefHeight="415.0" prefWidth="200" />
+				<AnchorPane minWidth="200" prefHeight="415.0" prefWidth="200" style="-fx-background-color: #D7CCC8;">
+               <children>
+                  <JFXProgressBar fx:id="progressCompression" progress="0.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #D7CCC8;" text="Compression" textAlignment="CENTER" textFill="#3E2723">
+                     <font>
+                        <Font name="System Font Regular" size="25.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
 				<AnchorPane minWidth="200" prefHeight="415.0" prefWidth="200" style="-fx-background-color: #D7CCC8;"> 
 					<children>
                   <Label fx:id="polynomialDescription" alignment="TOP_LEFT" layoutX="13.0" layoutY="229.0" prefHeight="91.0" prefWidth="174.0" textAlignment="JUSTIFY" textFill="#3E2723" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
@@ -27,7 +35,7 @@
 								<Font name="System Font Regular" size="25.0" />
 							</font>
 						</Label>
-                  <JFXComboBox fx:id="polynomialsComboBox" focusColor="#3e2723" layoutX="40.0" layoutY="93.0" AnchorPane.leftAnchor="10.0" onAction="#changePolynomial" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="92.0" />
+                  <JFXComboBox fx:id="polynomialsComboBox" focusColor="#3e2723" layoutX="40.0" layoutY="93.0" onAction="#changePolynomial" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="92.0" />
                   <JFXProgressBar fx:id="progressEncoding" progress="0.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
 					</children>
 				</AnchorPane>
