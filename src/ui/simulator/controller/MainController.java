@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import engine.encoding.EncoderParameters;
@@ -24,7 +25,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.TransferMode;
 
 
 public class MainController implements Initializable, SimulatorDelegate {
@@ -76,6 +76,9 @@ public class MainController implements Initializable, SimulatorDelegate {
 			}	
 		}
 	}
+	
+	@FXML 
+	private JFXDialog dialog;
 	
 	// 1st panel
 	@FXML
@@ -161,6 +164,7 @@ public class MainController implements Initializable, SimulatorDelegate {
 	// 4th panel
 	@FXML
 	void loadSimulation(ActionEvent event) {
+		notifyImportantMessage("asdasdasdasd");
 		// configuring compression
 		facade.setFileName(fileName);
 		facade.setCurrentCompressionMethod(compressionMethod);
@@ -199,6 +203,11 @@ public class MainController implements Initializable, SimulatorDelegate {
 		if ( scrollBar != null ) {
 			scrollBar.setStyle("-fx-opacity: 0;");
 		}
+	}
+
+	@Override
+	public void notifyImportantMessage(String messsage) {
+		dialog.show();
 	}
 	
 	

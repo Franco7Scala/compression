@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDialog?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
@@ -44,6 +45,7 @@
                         <Font size="11.0" />
                      </font>
                   </Label>
+                  <JFXDialog fx:id="dialog" prefHeight="188.0" prefWidth="365.0" />
                </children>
             </AnchorPane>
 				<AnchorPane minWidth="200" prefHeight="415.0" prefWidth="200" style="-fx-background-color: #D7CCC8;"> 

@@ -9,4 +9,5 @@ public interface SimulatorDelegate {
 	public void notifyEncodingAdvancement(float percentage);
 	public void notifyChannelAdvancement(float percentage);
 	public void notifyMessage(String messsage);
+	public void notifyImportantMessage(String messsage);
 }

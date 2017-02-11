@@ -3,6 +3,7 @@ package engine.encoding;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.BitSet;
 
 import engine.utilities.Fragmenter;
@@ -21,6 +22,7 @@ public class ConvolutionalEncoder implements Encoder {
 	@Override
 	public byte[] encode(String fileName, EncoderParameters parameters) throws Exception {
 		time = System.currentTimeMillis();
+		parameters.decodingOut = fileName;
 		for( int i = 1; i <= 8; i ++ ) {
 			if( ( ( i * (parameters.k ) ) % 8 ) == 0 ) {
 				parameters.blockSize = Math.abs( i * (parameters.k) );
@@ -55,6 +57,9 @@ public class ConvolutionalEncoder implements Encoder {
 	public boolean decode(byte[] input, EncoderParameters parameters) {
 		FileOutputStream outputStream = null;
 		try {
+			PrintWriter writer = new PrintWriter(parameters.decodingOut);
+			writer.print("");
+			writer.close();
 			outputStream = new FileOutputStream(parameters.decodingOut, true);
 			BitSet set = BitSet.valueOf(input);
 			for ( int i = 0; i < set.size(); i += parameters.n ) {

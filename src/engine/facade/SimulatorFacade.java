@@ -58,7 +58,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		try {
 			outputFileName = compressor.compress(fileName);
 		} catch (Exception e) {
-			delegate.notifyMessage("Oops...\nSomething went wrong during compression!");
+			delegate.notifyImportantMessage("Oops...\nSomething went wrong during compression!");
 			return;
 		}
 		float consumption = energyProfiler.energyConsumptionStopMonitoring();
@@ -69,7 +69,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		try {
 			encodedData = encoder.encode(outputFileName, encoderParameters);
 		} catch (Exception e) {
-			delegate.notifyMessage("Oops...\nSomething went wrong during encoding!");
+			delegate.notifyImportantMessage("Oops...\nSomething went wrong during encoding!");
 			return;
 		}
 		delegate.notifyMessage("Encoding completed...");
@@ -93,7 +93,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		compressor.decompress(encoderParameters.decodingOut);
 		consumption = energyProfiler.energyConsumptionStopMonitoring();
 		delegate.notifyMessage("Decompression completed!\nEnergy elapsed: " + consumption);
-		delegate.notifyMessage("Simulation terminated!");
+		delegate.notifyImportantMessage("Simulation terminated!");
 	}
 	
 	// Compression

@@ -11,8 +11,8 @@ import engine.encoding.GraphCoder.Node;
  *
  */
 public class Polynomial {
-//TODO mettere cose Encoder paramet
 
+	
 	public static EncoderParameters get4StatesPolynomial() {
 		EncoderParameters result = new EncoderParameters();
 		int cardinality = 2;
@@ -39,6 +39,9 @@ public class Polynomial {
 				            + "- K: 3\n"
 	                        + "- Polynomial: [1+D^2,   1+D+D^2]");
 		result.coder = graph;
+		result.k = 1;
+		result.n = 2;
+		result.M = 2;
 		return result;
 	}
 	
@@ -84,6 +87,9 @@ public class Polynomial {
 				            + "- K: 4\n"
 	                        + "- Polynomial: [1+D+D^3,   1+D+D^2]");
 		result.coder = graph;
+		result.k = 1;
+		result.n = 2;
+		result.M = 3;
 		return result;
 	}
 
@@ -194,6 +200,9 @@ public class Polynomial {
 				            + "- Polynomial: [D+D^2,   D^2,   D+D^2]\n"
 				            + "                       [D^2,   D,   D]");
 		result.coder = graph;
+		result.k = 2;
+		result.n = 3;
+		result.M = 4;
 		return result;
 	}
 	
