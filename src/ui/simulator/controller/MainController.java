@@ -18,6 +18,7 @@ import engine.facade.SimulatorFacade;
 import engine.utilities.SimulatorDelegate;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -208,12 +209,20 @@ public class MainController implements Initializable, SimulatorDelegate {
 	}
 
 	@Override
-	public void notifyImportantMessage(String messsage) {
-		System.out.println("called");
+	public void notifyImportantMessage(String message) {
 		JFXDialogLayout content = new JFXDialogLayout();
-		content.setHeading(new Text("PENE"));
-		content.setBody(new Text("content"));
+		content.setHeading(new Text("Oops..."));
+		content.setBody(new Text(message));
 		JFXDialog dialog = new JFXDialog(container, content, JFXDialog.DialogTransition.CENTER);
+		JFXButton button = new JFXButton("Close");
+		button.setStyle("-fx-text-fill: #817A78;");
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				dialog.close();
+			}
+		});
+		content.setActions(button);
 		dialog.show();
 	}
 	
