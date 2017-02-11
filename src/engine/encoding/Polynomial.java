@@ -37,7 +37,7 @@ public class Polynomial {
 		graph.setDescription("This is a convolutional encoder (with 4 states):\n"
 						    + "- Binary rate: 1/2\n"
 				            + "- K: 3\n"
-	                        + "- Polynomial: [1 + D^2, 1 + D + D^2]");
+	                        + "- Polynomial: [1+D^2,   1+D+D^2]");
 		result.coder = graph;
 		return result;
 	}
@@ -82,7 +82,7 @@ public class Polynomial {
 		graph.setDescription("This is a convolutional encoder (with 8 states):\n"
 				            + "- Binary rate: 1/2\n"
 				            + "- K: 4\n"
-	                        + "- Polynomial: [1 + D + D^3, 1 + D + D^2]");
+	                        + "- Polynomial: [1+D+D^3,   1+D+D^2]");
 		result.coder = graph;
 		return result;
 	}
@@ -191,8 +191,8 @@ public class Polynomial {
 		graph.setDescription("This is a convolutional encoder (with 16 states):\n"
 							+ "- Binary rate: 2/3\n"
 							+ "- K: 3\n"
-				            + "- Polynomial: [D + D^2,   D^2, D + D^2]\n"
-				            + "              [    D^2, D    , D      ]");
+				            + "- Polynomial: [D+D^2,   D^2,   D+D^2]\n"
+				            + "                       [D^2,   D,   D]");
 		result.coder = graph;
 		return result;
 	}

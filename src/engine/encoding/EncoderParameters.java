@@ -17,4 +17,12 @@ public class EncoderParameters {
 	public int n; 					// quantity output bits by the coder
 	public int m; 					// register size of minimum dimension
 	public int M; 					// total registers size
+	
+	
+	@Override
+	public String toString() {
+		return ((int)(Math.pow(2, M))) + " states polynomial";
+	}
+	
+	
 }
