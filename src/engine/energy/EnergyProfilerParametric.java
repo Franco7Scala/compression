@@ -61,7 +61,7 @@ public class EnergyProfilerParametric implements EnergyProfiler {
 					value = e;
 				}
 				if ( method.getName().equals("getProcessCpuTime") ) {
-					return (double)value;
+					return ((Long)value);
 				}
 			} 
 		} 

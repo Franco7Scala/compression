@@ -28,6 +28,10 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 
@@ -108,6 +112,9 @@ public class MainController implements Initializable, SimulatorDelegate {
     
     @FXML
 	private JFXProgressBar progressCompression;
+    
+    @FXML
+	private JFXButton infoEnergyButton;
 	
 	// 2nd panel
 	@FXML
@@ -149,6 +156,16 @@ public class MainController implements Initializable, SimulatorDelegate {
 	}
 	
 	@FXML
+	public void showEnergyInformations() {
+		notifyInfoMessage("These values are necessaries to determinate the energy consumption:\n\n"
+					    + "Clock: The CPU's clock (2.8);\n"
+				        + "EPI (Energy per instruction): Average of energy consumed for each instruction (6.86);\n"
+				        + "Em (Energy per memory access): Average of energy consumed for each memory access (12.23);\n"
+				        + "El: Hardware constant to have a more accureted calcolous, if available (1).\n\n"
+				        + "(The default values are for a CPU Intel® Haswell i7)\n");
+	}
+	
+	@FXML
     void captureFileName(DragEvent event) {
       Dragboard board = event.getDragboard();
       if (board.hasFiles()) {
@@ -169,12 +186,18 @@ public class MainController implements Initializable, SimulatorDelegate {
 	@FXML
 	void loadSimulation(ActionEvent event) {
 		// configuring compression
+		logOutputPanel.setText("");
 		facade.setFileName(fileName);
 		facade.setCurrentCompressionMethod(compressionMethod);
-		facade.setEnergyProfiler(new EnergyProfilerParametric(Float.parseFloat(clockTextField.getText()), 
-															  Float.parseFloat(epiTextField.getText()), 
-															  Float.parseFloat(emTextField.getText()), 
-															  Float.parseFloat(elTextField.getText())));
+		try {
+			facade.setEnergyProfiler(new EnergyProfilerParametric(Float.parseFloat(clockTextField.getText()), 
+															  	  Float.parseFloat(epiTextField.getText()), 
+															      Float.parseFloat(emTextField.getText()), 
+															      Float.parseFloat(elTextField.getText())));
+		} catch (Exception e) {
+			notifyInfoMessage("For this simulaton will be used the default values for energy consumption!");
+			facade.setEnergyProfiler(new EnergyProfilerParametric((float)2.8, (float)6.86, (float)12.23, (float)1));
+		}
 		// configuring encoding
 		facade.setEncoderParameters(parameters);
 		// configuring channel
@@ -210,17 +233,24 @@ public class MainController implements Initializable, SimulatorDelegate {
 
 	@Override
 	public void notifyImportantMessage(String message) {
-		showDialog("Message", message);
+		showDialog("Message", message, Color.BLACK);
 	}
 
 	@Override
 	public void notifyErrorMessage(String message) {
-		showDialog("Oops...", message);
+		showDialog("Oops...", message, Color.RED);
 	}
 	
-	private void showDialog(String title, String message) {
+	public void notifyInfoMessage(String message) {
+		showDialog("Information", message, Color.BLUE);
+	}
+	
+	private void showDialog(String title, String message, Color color) {
 		JFXDialogLayout content = new JFXDialogLayout();
-		content.setHeading(new Text(title));
+		Text textTitle = new Text(title);
+		textTitle.setFill(color);
+		textTitle.setFont(Font.font("Roboto", FontWeight.BOLD, 25));
+		content.setHeading(textTitle);
 		content.setBody(new Text(message));
 		JFXDialog dialog = new JFXDialog(container, content, JFXDialog.DialogTransition.CENTER);
 		JFXButton button = new JFXButton("Close");

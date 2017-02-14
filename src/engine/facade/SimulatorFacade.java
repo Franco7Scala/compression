@@ -62,7 +62,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 			return;
 		}
 		float consumption = energyProfiler.energyConsumptionStopMonitoring();
-		delegate.notifyMessage("Compression completed!\nEnergy elapsed: " + consumption);
+		delegate.notifyMessage("Compression completed!\nEnergy elapsed: " + consumption + " Joule");
 		// encoding
 		delegate.notifyMessage("Encoding data...");
 		byte [] encodedData = null;
@@ -92,7 +92,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		energyProfiler.energyConsumptionStartMonitoring();
 		compressor.decompress(encoderParameters.decodingOut);
 		consumption = energyProfiler.energyConsumptionStopMonitoring();
-		delegate.notifyMessage("Decompression completed!\nEnergy elapsed: " + consumption);
+		delegate.notifyMessage("Decompression completed!\nEnergy elapsed: " + consumption + " Joule");
 		delegate.notifyImportantMessage("Simulation terminated!");
 	}
 	

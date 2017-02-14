@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
@@ -21,10 +22,10 @@
 			<items>
       				<AnchorPane minWidth="177.0" prefHeight="369.0" prefWidth="177.0" style="-fx-background-color: #D7CCC8;">
                <children>
-               <JFXTextField fx:id="clockTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="263.0" promptText="clock" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      						<JFXTextField fx:id="epiTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="293.0" promptText="epi" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      						<JFXTextField fx:id="emTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="323.0" promptText="em" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      						<JFXTextField fx:id="elTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="353.0" promptText="el" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+               <JFXTextField fx:id="clockTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="263.0" promptText="clock" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="263.0" />
+      						<JFXTextField fx:id="epiTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="293.0" promptText="epi" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="293.0" />
+      						<JFXTextField fx:id="emTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="323.0" promptText="em" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="323.0" />
+      						<JFXTextField fx:id="elTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="353.0" promptText="el" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="353.0" />
       						<JFXComboBox fx:id="methodsComboBox" focusColor="#3e2723" layoutX="10.0" layoutY="203.0" prefHeight="27.0" prefWidth="155.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="203.0" />
       						<Label fx:id="dragNdropLabel" alignment="CENTER" layoutX="40.0" layoutY="56.0" onDragExited="#captureFileName" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="56.0">
                      <graphic>
@@ -35,7 +36,7 @@
                         </ImageView>
                      </graphic>
                   </Label>
-                  <Label fx:id="energyParametersLabel" alignment="CENTER" layoutX="10.0" layoutY="238.0" text="Energy parameters" textFill="#3e2723" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                  <Label fx:id="energyParametersLabel" alignment="CENTER" layoutX="10.0" layoutY="238.0" text="Energy parameters" textFill="#3e2723" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="241.0" />
                   <JFXProgressBar fx:id="progressCompression" layoutY="394.0" progress="0.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #D7CCC8;" text="Compression" textAlignment="CENTER" textFill="#3E2723" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
@@ -47,6 +48,13 @@
                         <Font size="11.0" />
                      </font>
                   </Label>
+                        <JFXButton fx:id="infoEnergyButton" layoutX="149.0" layoutY="236.0" onAction="#showEnergyInformations" prefHeight="28.0" prefWidth="28.0" text="i" textFill="#93746f" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="236.0">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></JFXButton>
                </children>
             </AnchorPane>
 				<AnchorPane minWidth="200" prefHeight="415.0" prefWidth="200" style="-fx-background-color: #D7CCC8;"> 
@@ -56,7 +64,7 @@
                         <Font size="10.0" />
                      </font>
                   </Label>
-						<Label alignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #D7CCC8;" text="Encoding" textAlignment="CENTER" textFill="#3E2723" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+						<Label alignment="CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #D7CCC8;" text="Encoding" textAlignment="CENTER" textFill="#3e2723" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<font>
 								<Font name="System Font Regular" size="25.0" />
 							</font>
