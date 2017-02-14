@@ -1,5 +1,9 @@
 package test;
 
+import engine.encoding.ConvolutionalEncoder;
+import engine.encoding.EncoderParameters;
+import engine.encoding.Polynomial;
+
 /*
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,6 +31,14 @@ import java.lang.reflect.Modifier;
 public class MainTest {
 
 	public static void main(String[] args) throws Exception {
+		
+		
+		ConvolutionalEncoder pene = new ConvolutionalEncoder();
+		EncoderParameters p = Polynomial.get4StatesPolynomial();
+		byte[] res = pene.encode("/esercizi/encoding/aaa.txt", p);
+		
+		pene.decode(res, p);
+		
 		
 		
 		

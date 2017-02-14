@@ -11,6 +11,8 @@ import engine.utilities.Constants.Factor;
 public class EncoderParameters {
 	public GraphCoder coder;
 	public int blockSize;
+	public int blockQuantity;
+	public int fileSize;
 	public String decodingOut;
 	public Factor[][][] generator;	// generator polynomials
 	public int k; 					// quantity input bits to the coder 
