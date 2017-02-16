@@ -51,8 +51,13 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 
 	// Simulation
 	public void startSimulation() {
+		// resetting percentages
+		delegate.notifyCompressionAdvancement(0);
+		delegate.notifyEncodingAdvancement(0);
+		delegate.notifyChannelAdvancement(0);
+		// simulation
 		delegate.notifyMessage("Starting simulation...");
-		delegate.notifyMessage("-------------------------------------------");
+		delegate.notifyMessage("-----------------------------------------");
 		// compression
 		delegate.notifyMessage("Compressing file with algorithm " + compressor.getCurrentCompressionMethod() + "...");
 		energyProfiler.energyConsumptionStartMonitoring();
@@ -68,7 +73,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		delegate.notifyMessage("Compression completed!\nEnergy elapsed: " + consumption + " Joule");
 		delegate.notifyMessage("Statisctics:");
 		delegate.notifyMessage(compressor.getStatiscticsCompression());
-		delegate.notifyMessage("------------------------------------------");
+		delegate.notifyMessage("----------------------------------------");
 		// encoding
 		delegate.notifyMessage("Encoding data...");
 		byte [] encodedData = null;
@@ -80,13 +85,13 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		}
 		delegate.notifyEncodingAdvancement(1);
 		delegate.notifyMessage("Encoding completed...");
-		delegate.notifyMessage("------------------------------------------");
+		delegate.notifyMessage("----------------------------------------");
 		// transmission
 		delegate.notifyMessage("Transmitting data...");
 		byte[] transmittedData = channel.simulateTransmission(encodedData);
 		delegate.notifyMessage("End transmission data, error = " + String.format("%.4f", channel.getErrorPercentage()) + "%");
 		delegate.notifyChannelAdvancement(1);
-		delegate.notifyMessage("------------------------------------------");
+		delegate.notifyMessage("----------------------------------------");
 		// resetting percentages
 		delegate.notifyCompressionAdvancement(0);
 		delegate.notifyEncodingAdvancement(0);
@@ -95,7 +100,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		encoder.decode(transmittedData, encoderParameters);
 		delegate.notifyMessage("Decoding completed...");
 		delegate.notifyEncodingAdvancement(1);
-		delegate.notifyMessage("------------------------------------------");
+		delegate.notifyMessage("----------------------------------------");
 		// decompression
 		delegate.notifyMessage("Decompressing file...");
 		energyProfiler.energyConsumptionStartMonitoring();
@@ -104,7 +109,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		delegate.notifyMessage("Decompression completed!\nEnergy elapsed: " + consumption + " Joule");
 		delegate.notifyImportantMessage("Simulation terminated!");
 		delegate.notifyCompressionAdvancement(1);
-		delegate.notifyMessage("------------------------------------------");
+		delegate.notifyMessage("----------------------------------------");
 		String decompressedFileName;
 		String container = fileName.substring(0, fileName.lastIndexOf('.'));
 		decompressedFileName = container + " copy.";

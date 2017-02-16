@@ -16,6 +16,7 @@ import engine.encoding.EncoderParameters;
 import engine.energy.EnergyProfilerParametric;
 import engine.facade.SimulatorFacade;
 import engine.utilities.SimulatorDelegate;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -205,8 +206,12 @@ public class MainController implements Initializable, SimulatorDelegate {
 		facade.setEncoderParameters(parameters);
 		// configuring channel
 		facade.setChannelMatrix(new float[][] { {Float.parseFloat(a11.getText()), Float.parseFloat(a12.getText())},
-			 								    {Float.parseFloat(a21.getText()), Float.parseFloat(a21.getText())} });		
-		facade.startSimulation();
+			 								    {Float.parseFloat(a21.getText()), Float.parseFloat(a21.getText())} });	
+		new Thread () {
+			public void run() {
+				facade.startSimulation();
+			}
+		}.start();
 	}
 
 	// Delegated methods
@@ -247,26 +252,30 @@ public class MainController implements Initializable, SimulatorDelegate {
 	public void notifyInfoMessage(String message) {
 		showDialog("Information", message, Color.BLUE);
 	}
-	
+
 	private void showDialog(String title, String message, Color color) {
-		JFXDialogLayout content = new JFXDialogLayout();
-		Text textTitle = new Text(title);
-		textTitle.setFill(color);
-		textTitle.setFont(Font.font("Roboto", FontWeight.BOLD, 25));
-		content.setHeading(textTitle);
-		content.setBody(new Text(message));
-		JFXDialog dialog = new JFXDialog(container, content, JFXDialog.DialogTransition.CENTER);
-		JFXButton button = new JFXButton("Close");
-		button.setStyle("-fx-text-fill: #817A78;");
-		button.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				dialog.close();
+		Platform.runLater(new Runnable(){
+			public void run() {
+				JFXDialogLayout content = new JFXDialogLayout();
+				Text textTitle = new Text(title);
+				textTitle.setFill(color);
+				textTitle.setFont(Font.font("Roboto", FontWeight.BOLD, 25));
+				content.setHeading(textTitle);
+				content.setBody(new Text(message));
+				JFXDialog dialog = new JFXDialog(container, content, JFXDialog.DialogTransition.CENTER);
+				JFXButton button = new JFXButton("Close");
+				button.setStyle("-fx-text-fill: #817A78;");
+				button.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						dialog.close();
+					}
+				});
+				content.setActions(button);
+				dialog.show();
 			}
 		});
-		content.setActions(button);
-		dialog.show();
 	}
-	
-	
+
+
 }
