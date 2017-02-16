@@ -12,6 +12,7 @@ import engine.utilities.Constants;
  */
 public class WiFiChannel implements Channel {
 	private float[][] chainMatrix = { {1, 0}, {1, 0} };
+	private float errorPercentage;
 	
 	public ChannelDelegate delegate;
 	
@@ -30,30 +31,38 @@ public class WiFiChannel implements Channel {
 		Random random = new Random();
 		int lengthChain = output.size(); 
 		int previousState = (random.nextInt(2) + 1);
+		errorPercentage = 0;
 		for ( int i = 0; i < lengthChain; i ++ ) {
 			if ( delegate != null ) {
 				delegate.notifyAdvancementTransmission((float)i/(float)lengthChain);
 			}
 			float event = Math.abs(random.nextFloat()); 
 			if ( previousState == Constants.NICE_STATE ) {
-				if ( event <= getTransitionProbability(1, 2) ) {
+				if ( event <= getTransitionProbability(0, 1) ) {
 					previousState = Constants.BAD_STATE;
 					output.flip(i);
+					errorPercentage ++;
 				}
 				else {
 					// do nothing
 				}
 			}
 			else { 
-				if ( event <= getTransitionProbability(2, 1) ) { 
+				if ( event <= getTransitionProbability(1, 0) ) { 
 					previousState = Constants.NICE_STATE;
 				}
 				else {
 					output.flip(i);
+					errorPercentage ++;
 				}
 			}
 		}
+		errorPercentage /= input.length;
 		return output.toByteArray();
+	}
+	
+	public float getErrorPercentage() {  
+		return errorPercentage;
 	}
 
 	private float getTransitionProbability(int i, int j) {

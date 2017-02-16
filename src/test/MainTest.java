@@ -3,6 +3,7 @@ package test;
 import engine.encoding.ConvolutionalEncoder;
 import engine.encoding.EncoderParameters;
 import engine.encoding.Polynomial;
+import engine.utilities.Support;
 
 /*
 import java.io.FileInputStream;
@@ -33,13 +34,23 @@ public class MainTest {
 	public static void main(String[] args) throws Exception {
 		
 		
+		
+		
+		
+		boolean a = Support.compareFiles("/Users/francesco/Desktop/aaa.txt", "/Users/francesco/Desktop/aaa.txt.lz78");
+		
+		System.out.println("result: " + a);
+		
+		
+		/*
+		
 		ConvolutionalEncoder pene = new ConvolutionalEncoder();
 		EncoderParameters p = Polynomial.get4StatesPolynomial();
 		byte[] res = pene.encode("/esercizi/encoding/aaa.txt", p);
 		
 		pene.decode(res, p);
 		
-		
+		*/
 		
 		
 		/*

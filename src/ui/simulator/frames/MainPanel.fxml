@@ -26,7 +26,7 @@
       						<JFXTextField fx:id="epiTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="293.0" promptText="epi" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="293.0" />
       						<JFXTextField fx:id="emTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="323.0" promptText="em" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="323.0" />
       						<JFXTextField fx:id="elTextField" alignment="CENTER" focusColor="#3e2723" layoutX="10.0" layoutY="353.0" promptText="el" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="353.0" />
-      						<JFXComboBox fx:id="methodsComboBox" focusColor="#3e2723" layoutX="10.0" layoutY="203.0" prefHeight="27.0" prefWidth="155.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="203.0" />
+      						<JFXComboBox fx:id="methodsComboBox" focusColor="#3e2723" layoutX="10.0" layoutY="203.0" onAction="#changeCompressionMethod" prefHeight="27.0" prefWidth="155.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="203.0" />
       						<Label fx:id="dragNdropLabel" alignment="CENTER" layoutX="40.0" layoutY="56.0" onDragExited="#captureFileName" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="56.0">
                      <graphic>
                         <ImageView fitHeight="100.0" fitWidth="100.0">
@@ -43,7 +43,7 @@
                         <Font name="System Font Regular" size="25.0" />
                      </font>
                   </Label>
-                  <Label fx:id="fileNameLabel" layoutX="72.0" layoutY="171.0" textFill="#3e2723" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="171.0">
+                  <Label fx:id="fileNameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="171.0" text="Drag your file here!" textAlignment="CENTER" textFill="#3e2723" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="171.0">
                      <font>
                         <Font size="11.0" />
                      </font>

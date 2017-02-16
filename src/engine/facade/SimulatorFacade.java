@@ -10,6 +10,7 @@ import engine.encoding.EncoderParameters;
 import engine.encoding.Polynomial;
 import engine.energy.EnergyProfiler;
 import engine.utilities.SimulatorDelegate;
+import engine.utilities.Support;
 
 
 /**
@@ -51,6 +52,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 	// Simulation
 	public void startSimulation() {
 		delegate.notifyMessage("Starting simulation...");
+		delegate.notifyMessage("-------------------------------------------");
 		// compression
 		delegate.notifyMessage("Compressing file with algorithm " + compressor.getCurrentCompressionMethod() + "...");
 		energyProfiler.energyConsumptionStartMonitoring();
@@ -62,7 +64,11 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 			return;
 		}
 		float consumption = energyProfiler.energyConsumptionStopMonitoring();
+		delegate.notifyCompressionAdvancement(1);
 		delegate.notifyMessage("Compression completed!\nEnergy elapsed: " + consumption + " Joule");
+		delegate.notifyMessage("Statisctics:");
+		delegate.notifyMessage(compressor.getStatiscticsCompression());
+		delegate.notifyMessage("------------------------------------------");
 		// encoding
 		delegate.notifyMessage("Encoding data...");
 		byte [] encodedData = null;
@@ -72,21 +78,24 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 			delegate.notifyErrorMessage("Something went wrong during encoding!");
 			return;
 		}
+		delegate.notifyEncodingAdvancement(1);
 		delegate.notifyMessage("Encoding completed...");
-		delegate.notifyMessage("Statisctics:");
-		delegate.notifyMessage(compressor.getStatiscticsCompression());
+		delegate.notifyMessage("------------------------------------------");
 		// transmission
 		delegate.notifyMessage("Transmitting data...");
 		byte[] transmittedData = channel.simulateTransmission(encodedData);
-		delegate.notifyMessage("End transmission data...");
+		delegate.notifyMessage("End transmission data, error = " + String.format("%.4f", channel.getErrorPercentage()) + "%");
+		delegate.notifyChannelAdvancement(1);
+		delegate.notifyMessage("------------------------------------------");
 		// resetting percentages
 		delegate.notifyCompressionAdvancement(0);
-		delegate.notifyChannelAdvancement(0);
 		delegate.notifyEncodingAdvancement(0);
 		// decoding
 		delegate.notifyMessage("Decoding data...");
 		encoder.decode(transmittedData, encoderParameters);
 		delegate.notifyMessage("Decoding completed...");
+		delegate.notifyEncodingAdvancement(1);
+		delegate.notifyMessage("------------------------------------------");
 		// decompression
 		delegate.notifyMessage("Decompressing file...");
 		energyProfiler.energyConsumptionStartMonitoring();
@@ -94,6 +103,19 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		consumption = energyProfiler.energyConsumptionStopMonitoring();
 		delegate.notifyMessage("Decompression completed!\nEnergy elapsed: " + consumption + " Joule");
 		delegate.notifyImportantMessage("Simulation terminated!");
+		delegate.notifyCompressionAdvancement(1);
+		delegate.notifyMessage("------------------------------------------");
+		String decompressedFileName;
+		String container = fileName.substring(0, fileName.lastIndexOf('.'));
+		decompressedFileName = container + " copy.";
+		container = fileName.substring(fileName.lastIndexOf('.') + 1);
+		decompressedFileName = decompressedFileName.concat(container);
+		if ( Support.compareFiles(fileName, decompressedFileName) ) {
+			delegate.notifyMessage("File rebuilded correctly!");
+		}
+		else {
+			delegate.notifyMessage("File NOT rebuilded correctly!");
+		}
 	}
 	
 	// Compression

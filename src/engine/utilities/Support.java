@@ -4,7 +4,12 @@ package engine.utilities;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
 import java.util.Scanner;
+
+import javax.xml.bind.DatatypeConverter;
 
 
 /**
@@ -126,4 +131,16 @@ public class Support {
 		stream.close();
 		return val;
 	}
+	
+	public static boolean compareFiles(String file1, String file2) {
+		try {
+			String hash1 = DatatypeConverter.printHexBinary(MessageDigest.getInstance("MD5").digest(Files.readAllBytes(Paths.get(file1))));
+			String hash2 = DatatypeConverter.printHexBinary(MessageDigest.getInstance("MD5").digest(Files.readAllBytes(Paths.get(file2))));
+			return (hash1.equalsIgnoreCase(hash2));
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	
 }

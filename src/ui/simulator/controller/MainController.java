@@ -186,7 +186,7 @@ public class MainController implements Initializable, SimulatorDelegate {
 	void loadSimulation(ActionEvent event) {
 		// configuring compression
 		if ( fileName == null ) {
-			notifyErrorMessage("You have to drop a file inside the arrow before to start the simulation!");
+			notifyErrorMessage("You have to drop a file inside the arrow before start the simulation!");
 			return;
 		}
 		logOutputPanel.setText("");
