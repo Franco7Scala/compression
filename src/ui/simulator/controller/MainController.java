@@ -185,6 +185,10 @@ public class MainController implements Initializable, SimulatorDelegate {
 	@FXML
 	void loadSimulation(ActionEvent event) {
 		// configuring compression
+		if ( fileName == null ) {
+			notifyErrorMessage("You have to drop a file inside the arrow before to start the simulation!");
+			return;
+		}
 		logOutputPanel.setText("");
 		facade.setFileName(fileName);
 		facade.setCurrentCompressionMethod(compressionMethod);
