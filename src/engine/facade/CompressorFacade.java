@@ -54,7 +54,7 @@ public class CompressorFacade {
 	public String getStatiscticsCompression() {
 		return "Algorithm: " + compressor.name() + "\n" +
 	           "Compression factor: " + compressor.compressionFactor() + " %\n" + 
-			   "Average Entropy: " + compressor.averageEntropy() + "\n" +
+			   "Entropy: " + compressor.averageEntropy() + "\n" +
 			   "Average Length: " + compressor.averageLength();
 	}
 

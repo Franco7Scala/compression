@@ -23,8 +23,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
@@ -55,12 +53,6 @@ public class MainController implements Initializable, SimulatorDelegate {
 		polynomialsComboBox.setItems(FXCollections.observableList(Arrays.asList(facade.getPolynomials())));
 		polynomialsComboBox.getSelectionModel().selectFirst();
 		changePolynomial(null);
-		// 4th panel
-		logOutputPanel.setWrapText(true);
-		ScrollBar scrollBar = (ScrollBar)logOutputPanel.lookup(".scroll-bar:vertical");
-		if ( scrollBar != null ) {
-			scrollBar.setStyle("-fx-opacity: 0;");
-		}
 	}
 	
 	@FXML
@@ -147,7 +139,7 @@ public class MainController implements Initializable, SimulatorDelegate {
 	private JFXButton loadSimulationButton;
 	
 	@FXML
-	private TextArea logOutputPanel;
+	private Label logOutputPanel;
 
 	// 1st panel
 	@FXML
@@ -157,12 +149,13 @@ public class MainController implements Initializable, SimulatorDelegate {
 	
 	@FXML
 	public void showEnergyInformations() {
-		notifyInfoMessage("These values are necessaries to determinate the energy consumption:\n\n"
+		String message = ("These values are necessaries to determinate the energy consumption:\n\n"
 					    + "Clock: The CPU's clock (2.8);\n"
 				        + "EPI (Energy per instruction): Average of energy consumed for each instruction (6.86);\n"
 				        + "Em (Energy per memory access): Average of energy consumed for each memory access (12.23);\n"
 				        + "El: Hardware constant to have a more accureted calcolous, if available (1).\n\n"
 				        + "(The default values are for a CPU Intel® Haswell i7)\n");
+		showDialog("Information", message, Color.BLUE, true);
 	}
 	
 	@FXML
@@ -187,7 +180,8 @@ public class MainController implements Initializable, SimulatorDelegate {
 	void loadSimulation(ActionEvent event) {
 		// configuring compression
 		if ( fileName == null ) {
-			notifyErrorMessage("You have to drop a file inside the arrow before start the simulation!");
+			String message = "You have to drop a file inside the arrow before start the simulation!";
+			showDialog("Oops...", message, Color.RED, true);
 			return;
 		}
 		logOutputPanel.setText("");
@@ -198,8 +192,9 @@ public class MainController implements Initializable, SimulatorDelegate {
 															  	  Float.parseFloat(epiTextField.getText()), 
 															      Float.parseFloat(emTextField.getText()), 
 															      Float.parseFloat(elTextField.getText())));
-		} catch (Exception e) {
-			notifyInfoMessage("For this simulaton will be used the default values for energy consumption!");
+		} catch (Exception e) {			
+			String message = "For this simulaton will be used the default values for energy consumption!";
+			showDialog("Information", message, Color.BLUE, true);
 			facade.setEnergyProfiler(new EnergyProfilerParametric((float)2.8, (float)6.86, (float)12.23, (float)1));
 		}
 		// configuring encoding
@@ -217,64 +212,80 @@ public class MainController implements Initializable, SimulatorDelegate {
 	// Delegated methods
 	@Override
 	public void notifyCompressionAdvancement(float percentage) {
-		progressCompression.setProgress(percentage);
+		try {
+			progressCompression.setProgress(percentage);
+		}catch (Exception e) {}
 	}
 
 	@Override
 	public void notifyEncodingAdvancement(float percentage) {
-		progressEncoding.setProgress(percentage);
+		try {
+			progressEncoding.setProgress(percentage);
+		} catch (Exception e) {}
 	}
 
 	@Override
 	public void notifyChannelAdvancement(float percentage) {
-		progressChannel.setProgress(percentage);
+		try {
+			progressChannel.setProgress(percentage);
+		} catch (Exception e) {}
 	}
 
 	@Override
 	public void notifyMessage(String message) {
-		logOutputPanel.setText( logOutputPanel.getText() + "\n" + message);
-		ScrollBar scrollBar = (ScrollBar)logOutputPanel.lookup(".scroll-bar:vertical");
-		if ( scrollBar != null ) {
-			scrollBar.setStyle("-fx-opacity: 0;");
-		}
+		try {
+			Platform.runLater(new Runnable() {
+				public void run() {
+					logOutputPanel.setText( logOutputPanel.getText() + "\n" + message );
+				}
+			});
+		} catch (Exception e) {}
 	}
 
 	@Override
 	public void notifyImportantMessage(String message) {
-		showDialog("Message", message, Color.BLACK);
+		showDialog("Message", message, Color.BLACK, false);
 	}
 
 	@Override
 	public void notifyErrorMessage(String message) {
-		showDialog("Oops...", message, Color.RED);
+		showDialog("Oops...", message, Color.RED, false);
 	}
 	
 	public void notifyInfoMessage(String message) {
-		showDialog("Information", message, Color.BLUE);
+		showDialog("Information", message, Color.BLUE, false);
 	}
 
-	private void showDialog(String title, String message, Color color) {
-		Platform.runLater(new Runnable(){
-			public void run() {
-				JFXDialogLayout content = new JFXDialogLayout();
-				Text textTitle = new Text(title);
-				textTitle.setFill(color);
-				textTitle.setFont(Font.font("Roboto", FontWeight.BOLD, 25));
-				content.setHeading(textTitle);
-				content.setBody(new Text(message));
-				JFXDialog dialog = new JFXDialog(container, content, JFXDialog.DialogTransition.CENTER);
-				JFXButton button = new JFXButton("Close");
-				button.setStyle("-fx-text-fill: #817A78;");
-				button.setOnAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						dialog.close();
-					}
-				});
-				content.setActions(button);
-				dialog.show();
+	private void showDialog(String title, String message, Color color, boolean main) {
+		try {
+			Runnable dialogThread = new Runnable() {
+				public void run() {
+					JFXDialogLayout content = new JFXDialogLayout();
+					Text textTitle = new Text(title);
+					textTitle.setFill(color);
+					textTitle.setFont(Font.font("Roboto", FontWeight.BOLD, 25));
+					content.setHeading(textTitle);
+					content.setBody(new Text(message));
+					JFXDialog dialog = new JFXDialog(container, content, JFXDialog.DialogTransition.CENTER);
+					JFXButton button = new JFXButton("Close");
+					button.setStyle("-fx-text-fill: #817A78;");
+					button.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent event) {
+							dialog.close();
+						}
+					});
+					content.setActions(button);
+					dialog.show();
+				}
+			};
+			if ( main ) {
+				dialogThread.run();
 			}
-		});
+			else {
+				Platform.runLater(dialogThread);
+			}
+		} catch (Exception e) {}
 	}
 
 

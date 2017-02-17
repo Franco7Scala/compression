@@ -5,7 +5,7 @@ import engine.encoding.EncoderParameters;
 import engine.encoding.Polynomial;
 import engine.utilities.Support;
 
-/*
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.BitSet;
@@ -26,7 +26,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-*/
+
 
 
 public class MainTest {
@@ -36,11 +36,11 @@ public class MainTest {
 		
 		
 		
-		
+		/*
 		boolean a = Support.compareFiles("/Users/francesco/Desktop/aaa.txt", "/Users/francesco/Desktop/aaa.txt.lz78");
 		
 		System.out.println("result: " + a);
-		
+		*/
 		
 		/*
 		
@@ -52,11 +52,11 @@ public class MainTest {
 		
 		*/
 		
-		
 		/*
 		
+		
 		int x = 8;
-		GraphCoder g = Polynomial.get4StatesPolynomial();
+		GraphCoder g = Polynomial.get16StatesPolynomial();
 		
 		BitSet u = BitSet.valueOf(new byte[] {22});
 		

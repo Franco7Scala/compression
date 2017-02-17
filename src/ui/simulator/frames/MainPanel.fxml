@@ -7,14 +7,13 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="420.0" minWidth="700.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.simulator.controller.MainController">
+<AnchorPane minHeight="420.0" minWidth="700.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.simulator.controller.MainController">
 	<children>
 	<StackPane fx:id="container" minHeight="420.0" minWidth="700.0" prefHeight="417.0" prefWidth="926.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 	<children>
@@ -59,7 +58,7 @@
             </AnchorPane>
 				<AnchorPane minWidth="200" prefHeight="415.0" prefWidth="200" style="-fx-background-color: #D7CCC8;"> 
 					<children>
-                  <Label fx:id="polynomialDescription" alignment="TOP_LEFT" layoutX="13.0" layoutY="229.0" prefHeight="91.0" prefWidth="174.0" textAlignment="JUSTIFY" textFill="#3E2723" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                  <Label fx:id="polynomialDescription" alignment="TOP_LEFT" layoutX="13.0" layoutY="229.0" prefHeight="91.0" prefWidth="174.0" textFill="#3E2723" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <font>
                         <Font size="10.0" />
                      </font>
@@ -111,7 +110,11 @@
 				<AnchorPane minWidth="300" prefHeight="415.0" style="-fx-background-color: #FFE0B2;">
                 	<children>
                			<JFXButton fx:id="loadSimulationButton" alignment="CENTER" buttonType="FLAT" layoutX="0" layoutY="0" onAction="#loadSimulation" prefWidth="100.0" ripplerFill="#943e00" style="-fx-background-color: #FB8C00;" text="Simulate" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
-                  <TextArea fx:id="logOutputPanel" editable="false" layoutX="40.0" layoutY="51.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0" />
+                        <Label fx:id="logOutputPanel" alignment="TOP_LEFT" layoutX="9.0" layoutY="40.0" prefHeight="366.0" prefWidth="305.0" style="-fx-background-color: WHITE;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </Label>
                		</children>
                </AnchorPane>
 			</items>

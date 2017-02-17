@@ -51,7 +51,7 @@ public class ConvolutionalEncoder implements Encoder {
 				parameters.coder.startEncoding();
 				BitSet output = new BitSet( 8 * parameters.n );
 				int offset = 0;
-				for ( int i = 0; i < input.size(); /*i += parameters.k*/ ) {
+				for ( int i = 0; i < input.size(); ) {
 					BitSet toEncode = new BitSet();
 					for ( int f = 0; f < parameters.k; f ++, i ++ ) {
 						toEncode.set(f, input.get(i + (inputIndex * parameters.blockSize)));
