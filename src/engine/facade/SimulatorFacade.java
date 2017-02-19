@@ -99,6 +99,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		delegate.notifyMessage("Decoding data...");
 		encoder.decode(transmittedData, encoderParameters);
 		delegate.notifyMessage("Decoding completed...");
+		delegate.notifyMessage("Delay E2E: " + encoder.elapsedTime() + " ms");
 		delegate.notifyEncodingAdvancement(1);
 		delegate.notifyMessage("----------------------------------------");
 		// decompression

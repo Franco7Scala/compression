@@ -110,7 +110,7 @@
 				<AnchorPane minWidth="300" prefHeight="415.0" style="-fx-background-color: #FFE0B2;">
                 	<children>
                			<JFXButton fx:id="loadSimulationButton" alignment="CENTER" buttonType="FLAT" layoutX="0" layoutY="0" onAction="#loadSimulation" prefWidth="100.0" ripplerFill="#943e00" style="-fx-background-color: #FB8C00;" text="Simulate" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
-                        <Label fx:id="logOutputPanel" alignment="TOP_LEFT" layoutX="9.0" layoutY="40.0" prefHeight="366.0" prefWidth="305.0" style="-fx-background-color: WHITE;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0">
+                        <Label fx:id="logOutputPanel" alignment="TOP_LEFT" layoutX="9.0" layoutY="40.0" prefHeight="366.0" prefWidth="305.0" style="-fx-background-color: WHITE;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="40.0">
                            <font>
                               <Font size="11.0" />
                            </font>
