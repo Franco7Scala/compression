@@ -22,6 +22,9 @@ public interface Constants {
 	// LempelZiv78
 	public static final String LZ78_COMPRESSION_EXTENSION = "lz78";
 	
+	// ScalaMadonna17
+	public static final String SM17_COMPRESSION_EXTENSION = "sm17";
+	
 	
 	// ENCODING
 	public enum Factor {DIRECT, SINGLE_SHIFT, DOUBLE_SHIFT, TRIPLE_SHIFT, BLANK};
