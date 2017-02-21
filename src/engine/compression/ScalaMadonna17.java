@@ -1,5 +1,6 @@
 package engine.compression;
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
@@ -8,7 +9,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
-
 import engine.utilities.Constants;
 import engine.utilities.Fragmenter;
 import engine.utilities.Support;
@@ -18,17 +18,11 @@ import engine.utilities.Support;
  *
  */
 public class ScalaMadonna17 extends AbstractCompressor {
-	private HashMap<Integer, List<Byte>> dictionary;
-	private boolean findFullSequence;
-
-	public ScalaMadonna17() {
-		this.findFullSequence = false;
-		// TODO generazione coppie di default nel dizionario
-		dictionary = new HashMap<Integer, List<Byte>>();
-	}
+	
 
 	@Override
 	public String compress(String fileName) throws Exception {
+		HashMap<Integer, List<Byte>> dictionary = generateDictionary();
 		probabilitiesGenerated = false;
 		this.fileName = fileName;
 		LinkedList<Byte> prefix = new LinkedList<>();
@@ -45,15 +39,17 @@ public class ScalaMadonna17 extends AbstractCompressor {
 				throw new Exception("Error creating output file!");
 			}
 			outputStream = new FileOutputStream(fileName + "." + Constants.SM17_COMPRESSION_EXTENSION, true);
+			outputStream.write(Support.intToByteArray((int)fragmenter.getFileSize()));
+			outputStream.write(Constants.EOF);
+			outputStream.write(Constants.EOF);
 			int oldPointer = -1;
 			while ( fragmenter.hasMoreFragments() ) {
 				if ( delegate != null ) {
 					delegate.notifyAdvancementCompression((float)fragmenter.getCurrentFragment()/(float)fragmenter.getFileSize());
 				}
-				prefix.add(fragmenter.nextFragment()[0]);
-				prefix.add(fragmenter.nextFragment()[1]);
-				nextFragment[0] = fragmenter.nextFragment()[0];
-				nextFragment[1] = fragmenter.nextFragment()[1];
+				nextFragment = fragmenter.nextFragment();
+				prefix.add(nextFragment[0]);
+				prefix.add(nextFragment[1]);
 				if ( oldPointer == -1 ) {
 					oldPointer = search(prefix, dictionary);
 					continue;
@@ -76,11 +72,16 @@ public class ScalaMadonna17 extends AbstractCompressor {
 				}
 			}
 			if ( !prefix.isEmpty() ) {
-				outputStream.write(Support.intToByteArray(oldPointer));
-				outputSize += 5;
+				outputStream.write(Constants.EOF);
+				outputStream.write(new Byte((byte)prefix.size()));
+				for ( byte toPrint : prefix ) {
+					outputStream.write(toPrint);
+				}
+				outputSize += 6;
 			}
-			outputStream.write(Constants.EOF);
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw e;
 		}
 		finally {
@@ -93,26 +94,17 @@ public class ScalaMadonna17 extends AbstractCompressor {
 		return outputFileName;
 	}
 
-	private int search(List<Byte> prefix, HashMap<Integer, List<Byte>> dictionary) {
-		for ( Entry<Integer, List<Byte>> entry : dictionary.entrySet() ) {
-			if ( prefix.equals(entry.getValue()) ) {
-				return entry.getKey();
-			}
-		}
-		return 0;
-	}
-
 	@Override
 	public boolean decompress(String fileName, Object dictionary) {
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
 		String decompressedFileName = null;
-		boolean toTruncate = true;
-
-		// TODO creare anche qui tutte le coppie di numeri
-		HashMap<Integer, LinkedList<Byte>> readData = new HashMap<>();
+		HashMap<Integer, List<Byte>> readData = generateDictionary();
+		int fileSize = 0;
 		try {
 			fragmenter = new Fragmenter(fileName, 6);
+			byte[] rawFileSize = fragmenter.nextFragment();
+			fileSize = Support.byteArrayToInt(Arrays.copyOfRange(rawFileSize, 0, 4));
 			// creating file with decompression
 			decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.'));
 			File file = new File(decompressedFileName);
@@ -129,7 +121,7 @@ public class ScalaMadonna17 extends AbstractCompressor {
 				}
 			}
 			outputStream = new FileOutputStream(decompressedFileName, true);
-			int index = 1;
+			int index = readData.size() + 1;
 			while ( fragmenter.hasMoreFragments() ) {
 				if ( delegate != null ) {
 					delegate.notifyAdvancementCompression((float)fragmenter.getCurrentFragment()/(float)fragmenter.getFileSize());
@@ -147,7 +139,9 @@ public class ScalaMadonna17 extends AbstractCompressor {
 					}
 				}
 				else {
-					toTruncate = false;
+					for ( int i = 2; i < read[1]+2; i ++ ) {
+						outputStream.write(read[i]);
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -158,23 +152,61 @@ public class ScalaMadonna17 extends AbstractCompressor {
 			try {
 				outputStream.close();
 				fragmenter.close();
-				if ( toTruncate ) {
 					RandomAccessFile file = new RandomAccessFile(decompressedFileName, "rw");
-					file.setLength(file.length()-1);
+					file.setLength(fileSize);
 					file.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			} catch (Exception e) {}
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String name() {
 		return Constants.SM17_COMPRESSION;
 	}
-
+	
+	private HashMap<Integer, List<Byte>> generateDictionary () {
+		HashMap<Integer, List<Byte>> result = new HashMap<>();
+		int index = 1;
+		for ( int i = 0; i < 256; i ++ ) {
+			for ( int j = i; j < 256; j++ ) {
+				LinkedList<Byte> value = new LinkedList<>();
+				value.addLast(new Byte((byte)i));
+				value.addLast(new Byte((byte)j));
+				result.put(index, value);
+				index ++;
+				if ( i != j ) {
+					LinkedList<Byte> reverseValue = new LinkedList<>();
+					reverseValue.addLast(new Byte((byte)j));
+					reverseValue.addLast(new Byte((byte)i));
+					result.put(index, reverseValue);
+					index ++;
+				}
+			}
+		}
+		return result;
+	}
+	
+	private int search(List<Byte> prefix, HashMap<Integer, List<Byte>> dictionary) {
+		for ( Entry<Integer, List<Byte>> entry : dictionary.entrySet() ) {
+			if ( compareLists(prefix, entry.getValue()) ) {
+				return entry.getKey();
+			}
+		}
+		return 0;
+	}
+	
+	private boolean compareLists(List<Byte> a, List<Byte> b) {
+		if ( a.size() != b.size() ) {
+			return false;
+		}
+		for ( int i = 0; i < a.size(); i ++ ) {
+			if ( !a.get(i).equals(b.get(i)) ) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 
 }

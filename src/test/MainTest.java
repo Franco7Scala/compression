@@ -16,6 +16,7 @@ import javax.swing.SortingFocusTraversalPolicy;
 import engine.compression.ArithmeticCompression;
 import engine.compression.Compressor;
 import engine.compression.LempelZiv78;
+import engine.compression.ScalaMadonna17;
 import engine.encoding.GraphCoder;
 import engine.encoding.Polynomial;
 import engine.energy.EnergyProfiler;
@@ -33,6 +34,23 @@ public class MainTest {
 
 	public static void main(String[] args) throws Exception {
 		
+		
+		
+		
+		
+		try {
+			
+			ScalaMadonna17 compressor = new ScalaMadonna17();
+			compressor.compress("/Users/francesco/Desktop/divina commedia.txt");
+			
+			
+			
+			
+			compressor.decompress("/Users/francesco/Desktop/divina commedia.txt.SM17", null);
+		} catch (Exception e) {
+			System.out.println("Something went wrong during compression!");
+			return;
+		}
 		
 		
 		

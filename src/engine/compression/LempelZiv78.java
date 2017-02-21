@@ -157,7 +157,6 @@ public class LempelZiv78 extends AbstractCompressor {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 		finally {
@@ -169,9 +168,7 @@ public class LempelZiv78 extends AbstractCompressor {
 					file.setLength(file.length()-1);
 					file.close();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			} catch (Exception e) {}
 		}
 		return true;
 	}
