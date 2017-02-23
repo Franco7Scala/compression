@@ -85,7 +85,7 @@ public class LempelZiv78 extends AbstractCompressor {
 		}
 		finally {
 			try {
-				compressionFactor = 1 - ( outputSize / fragmenter.getFileSize() );
+				compressionFactor = 1 - ( (float)outputSize / (float)fragmenter.getFileSize() );
 				outputStream.close();
 				fragmenter.close();
 			} catch (Exception e) {}

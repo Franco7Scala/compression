@@ -12,7 +12,7 @@ import engine.utilities.Fragmenter;
  */
 public abstract class AbstractCompressor implements Compressor {
 	protected HashMap<Byte, Double> probabilities;
-	protected long compressionFactor;
+	protected float compressionFactor;
 	protected boolean probabilitiesGenerated;
 	protected String fileName;
 

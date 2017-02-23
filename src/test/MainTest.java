@@ -40,13 +40,14 @@ public class MainTest {
 		
 		try {
 			
-			ScalaMadonna17 compressor = new ScalaMadonna17();
+			Compressor compressor = new LempelZiv78();
+			//Compressor compressor = new ScalaMadonna17();
 			compressor.compress("/Users/francesco/Desktop/divina commedia.txt");
 			
 			
 			
 			
-			compressor.decompress("/Users/francesco/Desktop/divina commedia.txt.SM17", null);
+			//compressor.decompress("/Users/francesco/Desktop/divina commedia 2.txt.SM17", null);
 		} catch (Exception e) {
 			System.out.println("Something went wrong during compression!");
 			return;

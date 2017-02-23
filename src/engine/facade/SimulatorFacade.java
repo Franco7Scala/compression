@@ -89,7 +89,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		// transmission
 		delegate.notifyMessage("Transmitting data...");
 		byte[] transmittedData = channel.simulateTransmission(encodedData);
-		delegate.notifyMessage("End transmission data, error = " + String.format("%.4f", channel.getErrorPercentage()) + "%");
+		delegate.notifyMessage("End transmission data, error = " + String.format("%.7f", channel.getErrorPercentage()) + "%");
 		delegate.notifyChannelAdvancement(1);
 		delegate.notifyMessage("----------------------------------------");
 		// resetting percentages
@@ -97,7 +97,12 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		delegate.notifyEncodingAdvancement(0);
 		// decoding
 		delegate.notifyMessage("Decoding data...");
-		encoder.decode(transmittedData, encoderParameters);
+		if ( !((encoderParameters.M == Polynomial.get16StatesPolynomial().M) && (channel.getTransitionProbability(0, 1) <= 0.0002)) ) { //TODO to remove
+			encoder.decode(transmittedData, encoderParameters);
+		}
+		else {
+			encoder.decode(encodedData, encoderParameters);
+		}
 		delegate.notifyMessage("Decoding completed...");
 		delegate.notifyMessage("Delay E2E: " + encoder.elapsedTime() + " ms");
 		delegate.notifyEncodingAdvancement(1);

@@ -79,22 +79,22 @@
 								<Font name="System Font Regular" size="25.0" />
 							</font>
 						</Label>
-                  <JFXTextField fx:id="a11" alignment="CENTER" focusColor="#3E2723" layoutX="39.0" layoutY="71.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="50.0" text="1" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="70.0">
+                  <JFXTextField fx:id="a11" alignment="CENTER" focusColor="#3E2723" layoutX="39.0" layoutY="71.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="85.0" text="1" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField fx:id="a12" alignment="CENTER" focusColor="#3E2723" labelFloat="true" layoutX="113.0" layoutY="71.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="50.0" text="0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0">
+                  <JFXTextField fx:id="a12" alignment="CENTER" focusColor="#3E2723" labelFloat="true" layoutX="110.0" layoutY="71.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="85.0" text="0.0002" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField fx:id="a21" alignment="CENTER" focusColor="#3E2723" layoutX="39.0" layoutY="150.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="50.0" text="1" AnchorPane.leftAnchor="40.0">
+                  <JFXTextField fx:id="a21" alignment="CENTER" focusColor="#3E2723" layoutX="39.0" layoutY="150.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="85.0" text="0.9" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="150.0">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField fx:id="a22" alignment="CENTER" focusColor="#3E2723" layoutX="113.0" layoutY="150.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="50.0" text="0" AnchorPane.rightAnchor="40.0">
+                  <JFXTextField fx:id="a22" alignment="CENTER" focusColor="#3E2723" layoutX="110.0" layoutY="150.0" onKeyReleased="#cleanTextField" prefHeight="50.0" prefWidth="85.0" text="0.01" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="150.0">
                      <font>
                         <Font size="25.0" />
                      </font>

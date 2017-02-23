@@ -33,7 +33,7 @@ public class ScalaMadonna17 extends AbstractCompressor {
 		int outputSize = 0;
 		try {
 			fragmenter = new Fragmenter(fileName, 2);
-			outputFileName = fileName + "." + Constants.SM17_COMPRESSION;
+			outputFileName = fileName + "." + Constants.SM17_COMPRESSION_EXTENSION;
 			File file = new File(outputFileName);
 			if ( !file.createNewFile() ) {
 				throw new Exception("Error creating output file!");
@@ -86,7 +86,7 @@ public class ScalaMadonna17 extends AbstractCompressor {
 		}
 		finally {
 			try {
-				compressionFactor = 1 - ( outputSize / fragmenter.getFileSize() );
+				compressionFactor = 1 - ( (float)outputSize / (float)fragmenter.getFileSize() );
 				outputStream.close();
 				fragmenter.close();
 			} catch (Exception e) {}

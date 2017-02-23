@@ -65,7 +65,7 @@ public class WiFiChannel implements Channel {
 		return errorPercentage;
 	}
 
-	private float getTransitionProbability(int i, int j) {
+	public float getTransitionProbability(int i, int j) {
 		return chainMatrix[i][j];
 	}
 	
