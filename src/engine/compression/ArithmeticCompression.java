@@ -3,6 +3,7 @@ package engine.compression;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
 import java.util.HashMap;
 
 import engine.utilities.Constants;
@@ -77,14 +78,16 @@ public class ArithmeticCompression extends AbstractCompressor {
 	public boolean decompress(String fileName, Object dictionary) {
 		FileOutputStream outputStream = null;
 		Fragmenter fragmenter = null;
+		String decompressedFileName = null;
+		long fileSize = 0;
 		try {
 			if ( !(dictionary instanceof HashMap) ) {
 				return false;
 			}
 			probabilities = (HashMap<Byte, Double>) dictionary;
 			fragmenter = new Fragmenter(fileName, 8);
-			long fileSize = Support.byteArrayToLong(fragmenter.nextFragment());
-			String decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.'));
+			fileSize = Support.byteArrayToLong(fragmenter.nextFragment());
+			decompressedFileName = fileName.substring(0, fileName.lastIndexOf('.'));
 			File file = new File(decompressedFileName);
 			if ( !file.createNewFile() ) {
 				String container = fileName.substring(0, fileName.lastIndexOf('.'));
@@ -149,6 +152,9 @@ public class ArithmeticCompression extends AbstractCompressor {
 			try {
 				outputStream.close();
 				fragmenter.close();
+				RandomAccessFile file = new RandomAccessFile(decompressedFileName, "rw");
+				file.setLength(fileSize);
+				file.close();
 			} catch (Exception e) {}
 		}
 		return true;

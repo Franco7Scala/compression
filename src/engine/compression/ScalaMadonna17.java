@@ -18,7 +18,7 @@ import engine.utilities.Support;
  *
  */
 public class ScalaMadonna17 extends AbstractCompressor {
-	
+
 
 	@Override
 	public String compress(String fileName) throws Exception {
@@ -79,7 +79,7 @@ public class ScalaMadonna17 extends AbstractCompressor {
 				}
 				outputSize += 6;
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -152,19 +152,19 @@ public class ScalaMadonna17 extends AbstractCompressor {
 			try {
 				outputStream.close();
 				fragmenter.close();
-					RandomAccessFile file = new RandomAccessFile(decompressedFileName, "rw");
-					file.setLength(fileSize);
-					file.close();
+				RandomAccessFile file = new RandomAccessFile(decompressedFileName, "rw");
+				file.setLength(fileSize);
+				file.close();
 			} catch (Exception e) {}
 		}
 		return true;
 	}
-	
+
 	@Override
 	public String name() {
 		return Constants.SM17_COMPRESSION;
 	}
-	
+
 	private HashMap<Integer, List<Byte>> generateDictionary () {
 		HashMap<Integer, List<Byte>> result = new HashMap<>();
 		int index = 1;
@@ -186,7 +186,7 @@ public class ScalaMadonna17 extends AbstractCompressor {
 		}
 		return result;
 	}
-	
+
 	private int search(List<Byte> prefix, HashMap<Integer, List<Byte>> dictionary) {
 		for ( Entry<Integer, List<Byte>> entry : dictionary.entrySet() ) {
 			if ( compareLists(prefix, entry.getValue()) ) {
@@ -195,7 +195,7 @@ public class ScalaMadonna17 extends AbstractCompressor {
 		}
 		return 0;
 	}
-	
+
 	private boolean compareLists(List<Byte> a, List<Byte> b) {
 		if ( a.size() != b.size() ) {
 			return false;
