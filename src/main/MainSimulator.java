@@ -9,7 +9,11 @@ import javafx.stage.Stage;
 
 
 public class MainSimulator extends Application {
+	
+	public static void main(String[] args) {
+		Application.launch(MainSimulator.class);
 
+	}
 	
 	@Override
 	public void start(Stage stage) throws Exception {

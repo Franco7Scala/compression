@@ -97,12 +97,7 @@ public class SimulatorFacade implements CompressorDelegate, ChannelDelegate, Enc
 		delegate.notifyEncodingAdvancement(0);
 		// decoding
 		delegate.notifyMessage("Decoding data...");
-		if ( !((encoderParameters.M == Polynomial.get16StatesPolynomial().M) && (channel.getTransitionProbability(0, 1) <= 0.0002)) ) { //TODO to remove
-			encoder.decode(transmittedData, encoderParameters);
-		}
-		else {
-			encoder.decode(encodedData, encoderParameters);
-		}
+		encoder.decode(transmittedData, encoderParameters);
 		delegate.notifyMessage("Decoding completed...");
 		delegate.notifyMessage("Delay E2E: " + encoder.elapsedTime() + " ms");
 		delegate.notifyEncodingAdvancement(1);

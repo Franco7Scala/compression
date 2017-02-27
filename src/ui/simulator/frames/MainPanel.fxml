@@ -30,7 +30,7 @@
                      <graphic>
                         <ImageView fitHeight="100.0" fitWidth="100.0">
                            <image>
-                              <Image url="@../../../../images/drag.png" />
+                              <Image url="@/images/drag.png" />
                            </image>
                         </ImageView>
                      </graphic>
